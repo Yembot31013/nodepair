@@ -1,0 +1,41 @@
+{% extends 'account/bases.html' %} {% load socialaccount %}{%block content%}
+<main>
+  <div class="layout">
+    <!-- Start of Sign Up -->
+    <div class="main order-md-2">
+      <div class="start">
+        <div class="container">
+          <div class="col-md-12">
+            <div class="content">
+              <h1>Create Your Meta</h1>
+              <p>Let Start the journey Of Creating New Meta</p>
+              <form class="signup">
+                <div class="form-parent">
+                </div>
+                <a href="{% url 'metas' %}" class="btn button btn-primary">Create Your Meta</a>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End of Sign Up -->
+    <!-- Start of Sidebar -->
+    <div class="aside order-md-1 bg-primary">
+      <div class="container">
+        <div class="col-md-12">
+          <div class="preference">
+            <h2>Deploy Your Project</h2>
+            <p>
+              Let Start setting up all you got for selling Your already made project within a minute..
+            </p>
+            <a href="{% url 'project' %}" class="btn button">Deploy Project</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End of Sidebar -->
+  </div>
+  <!-- Layout -->
+</main>
+{% endblock content%}

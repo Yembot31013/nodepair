@@ -1,0 +1,53 @@
+.edit.ph-avatar:before{
+  display: none;
+}
+.edit{
+  height: 60px;
+}
+.edit.ph-row div{
+  height: 17px!important;
+  margin-top: 2.7px!important;
+}
+strong.col-12.my-auto.cus {
+    line-height: 19px;
+}
+
+.contain {
+    width: min-content!important;
+}
+.highlight{
+  height: 99px;
+  width: 99px;
+  border-left: 4px solid green;
+  rotate: 30;
+  animation: highlights infinite 2s;
+}
+@keyframes highlights {
+  0%{
+    border: none;
+    border-left: 4px solid green;
+  }
+  25%{
+    border: none;
+    border-bottom: 4px solid yellow;
+  }
+  50%{
+    border: none;
+    border-right: 4px solid green;
+  }
+  75%{
+    border: none;
+    border-top: 4px solid rgb(204, 11, 43);
+  }
+  100%{
+    border: none;
+    border-left: 4px solid green;
+  }
+}
+.imgCustom{
+  width: 90px;
+  height: 90px;
+  top: 4px;
+  left: 4px;
+  position: absolute;
+}

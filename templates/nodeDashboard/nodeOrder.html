@@ -1,0 +1,357 @@
+{% extends "nodeDashboard/nodeBase.html" %}
+{% load humanize %}
+{% load static %}
+{% block title %}
+  Order
+{% endblock title %}
+{% block order %}
+active
+{% endblock order %}
+{% block header %}
+  Order
+{% endblock header %}
+{% block breadcrumb %}
+  Order
+{% endblock breadcrumb %}
+{% block content %}
+<!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h5 class="card-title">Order Recap</h5>
+
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <button type="button" class="btn btn-tool" data-card-widget="remove">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="card-footer">
+                <div class="row">
+                  <div class="col-sm-3 col-6">
+                    <div class="description-block border-right">
+                      <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span>
+                      <h5 class="description-header">{{metaOrder.count}}</h5>
+                      <span class="description-text">TOTAL Order</span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+                  <div class="col-sm-3 col-6">
+                    <div class="description-block border-right">
+                      <span class="description-percentage text-warning"><i class="fas fa-caret-left"></i> 0%</span>
+                      <h5 class="description-header">{{complete_count}}</h5>
+                      <span class="description-text">Completed</span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+                  <div class="col-sm-3 col-6">
+                    <div class="description-block border-right">
+                      <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 20%</span>
+                      <h5 class="description-header">{{pending_count}}</h5>
+                      <span class="description-text">Pending</span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+                  <div class="col-sm-3 col-6">
+                    <div class="description-block">
+                      <span class="description-percentage text-danger"><i class="fas fa-caret-down"></i> 18%</span>
+                      <h5 class="description-header">{{decline_cancel_count}}</h5>
+                      <span class="description-text">Total cancelled/declined</span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                </div>
+                <!-- /.row -->
+              </div>
+              <!-- /.card-footer -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header border-0">
+                <div class="d-flex justify-content-between">
+                  <h3 class="card-title">orders overview</h3>
+                  <a href="javascript:void(0);">View Report</a>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="d-flex">
+                  <p class="d-flex flex-column">
+                    <span class="text-bold text-lg">820</span>
+                    <span>Order Over Time</span>
+                  </p>
+                  <p class="ml-auto d-flex flex-column text-right">
+                    <span class="text-success">
+                      <i class="fas fa-arrow-up"></i> 12.5%
+                    </span>
+                    <span class="text-muted">Since last week</span>
+                  </p>
+                </div>
+                <!-- /.d-flex -->
+
+                <div class="position-relative mb-4">
+                  <canvas id="visitors-chart" height="200"></canvas>
+                </div>
+
+                <div class="d-flex flex-row justify-content-end">
+                  <span class="mr-2">
+                    <i class="fas fa-square text-primary"></i> This Week
+                  </span>
+
+                  <span>
+                    <i class="fas fa-square text-gray"></i> Last Week
+                  </span>
+                </div>
+              </div>
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+        <!-- /.row -->
+        <div class="row">
+          <!-- /.col-md-6 -->
+          <div class="col-12">
+            <div class="card card-primary card-outline card-outline-tabs">
+              <div class="card-header p-0 border-bottom-0">
+                <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link active" id="tabs-four-all-tab" data-toggle="pill" href="#tabs-four-all" role="tab" aria-controls="tabs-four-all" aria-selected="true">All</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="tabs-four-pending-tab" data-toggle="pill" href="#tabs-four-pending" role="tab" aria-controls="tabs-four-pending" aria-selected="false">Pending</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="tabs-four-completed-tab" data-toggle="pill" href="#tabs-four-completed" role="tab" aria-controls="tabs-four-completed" aria-selected="false">Completed</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="tabs-four-cancelled-tab" data-toggle="pill" href="#tabs-four-cancelled" role="tab" aria-controls="tabs-four-cancelled" aria-selected="false">declined/cancelled</a>
+                  </li>
+                </ul>
+              </div>
+              <div class="card-body">
+                <div class="tab-content" id="custom-tabs-four-tabContent">
+                  <div class="tab-pane fade show active" id="tabs-four-all" role="tabpanel" aria-labelledby="tabs-four-all-tab">
+                     <div class="card">
+                      <div class="card-header border-transparent">
+                        <h3 class="card-title">Service Orders</h3>
+
+                        <div class="card-tools">
+                          <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                          </button>
+                          <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                          </button>
+                        </div>
+                      </div>
+                      <!-- /.card-header -->
+                      <div class="card-body p-0">
+                        <div class="table-responsive">
+                          <table class="table m-0">
+                            <thead>
+                            <tr>
+                              <th>Order ID</th>
+                              <th>Services</th>
+                              <th>Status</th>
+                              <th>Price</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                              {% for i in metaOrder %}
+                              <tr>
+                                <td><a href="pages/examples/invoice.html">{{i.order_id}}</a></td>
+                                <td>{{i.service.title}}</td>
+                                {% if i.status == "Pending" %}
+                                <td><span class="badge badge-warning">{{i.status}}</span></td>
+                                {% elif i.status == "Completed" %}
+                                <td><span class="badge badge-success">{{i.status}}</span></td>
+                                {% elif i.status == "Decline" or i.status == "Cancelled" %}
+                                <td><span class="badge badge-danger">{{i.status}}</span></td>
+                                {% endif %}
+                                <td>
+                                  <div class="sparkbar" data-color="#00a65a" data-height="20">{{i.payment.price | intcomma}}</div>
+                                </td>
+                              </tr>
+                              {% endfor %}
+                            </tbody>
+                          </table>
+                        </div>
+                        <!-- /.table-responsive -->
+                      </div>
+                      <!-- /.card-body -->
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="tabs-four-pending" role="tabpanel" aria-labelledby="tabs-four-pending-tab">
+                      <div class="card">
+                        <div class="card-header border-transparent">
+                          <h3 class="card-title">Pending Orders</h3>
+
+                          <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                              <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                              <i class="fas fa-times"></i>
+                            </button>
+                          </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body p-0">
+                          <div class="table-responsive">
+                            <table class="table m-0">
+                              <thead>
+                              <tr>
+                                <th>Order ID</th>
+                                <th>Services</th>
+                                <th>Status</th>
+                                <th>Price</th>
+                              </tr>
+                              </thead>
+                              <tbody>
+                                {% for i in metaOrder %}
+                                {% if i.status == "Pending" %}
+                              <tr>
+                                <td><a href="pages/examples/invoice.html">{{i.order_id}}</a></td>
+                                <td>{{i.service.title}}</td>
+                                <td><span class="badge badge-warning">{{i.status}}</span></td>
+                                <td>
+                                  <div class="sparkbar" data-color="#00a65a" data-height="20">{{i.payment.price | intcomma}}</div>
+                                </td>
+                              </tr>
+                              {% endif %}
+                              {% endfor %}
+                              </tbody>
+                            </table>
+                          </div>
+                          <!-- /.table-responsive -->
+                       </div>
+                        <!-- /.card-body -->
+                      </div>
+                  </div>
+                  <div class="tab-pane fade" id="tabs-four-completed" role="tabpanel" aria-labelledby="tabs-four-completed-tab">
+                      <div class="card">
+                        <div class="card-header border-transparent">
+                          <h3 class="card-title">Completed Orders</h3>
+
+                          <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                              <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                              <i class="fas fa-times"></i>
+                            </button>
+                          </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body p-0">
+                          <div class="table-responsive">
+                            <table class="table m-0">
+                              <thead>
+                              <tr>
+                                <th>Order ID</th>
+                                <th>Services</th>
+                                <th>Status</th>
+                                <th>Price</th>
+                              </tr>
+                              </thead>
+                              <tbody>
+                              {% for i in metaOrder %}
+                                {% if i.status == "Completed" %}
+                              <tr>
+                                <td><a href="pages/examples/invoice.html">{{i.order_id}}</a></td>
+                                <td>{{i.service.title}}</td>
+                                <td><span class="badge badge-success">{{i.status}}</span></td>
+                                <td>
+                                  <div class="sparkbar" data-color="#00a65a" data-height="20">{{i.payment.price | intcomma}}</div>
+                                </td>
+                              </tr>
+                              {% endif %}
+                              {% endfor %}
+                              </tbody>
+                            </table>
+                          </div>
+                          <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.card-body -->
+                      </div>
+                  </div>
+                  <div class="tab-pane fade" id="tabs-four-cancelled" role="tabpanel" aria-labelledby="tabs-four-cancelled-tab">
+                      <div class="card">
+                        <div class="card-header border-transparent">
+                          <h3 class="card-title">cancelled/declined Orders</h3>
+
+                          <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                              <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                              <i class="fas fa-times"></i>
+                            </button>
+                          </div>
+                        </div>
+                        <!-- /.card-headers -->
+                        <div class="card-body p-0">
+                          <div class="table-responsive">
+                            <table class="table m-0">
+                              <thead>
+                              <tr>
+                                <th>Order ID</th>
+                                <th>Services</th>
+                                <th>Status</th>
+                                <th>Price</th>
+                              </tr>
+                              </thead>
+                              <tbody>
+                              {% for i in metaOrder %}
+                                {% if i.status == "Decline" or i.status == "Cancelled" %}
+                              <tr>
+                                <td><a href="pages/examples/invoice.html">{{i.order_id}}</a></td>
+                                <td>{{i.service.title}}</td>
+                                <td><span class="badge badge-danger">{{i.status}}</span></td>
+                                <td>
+                                  <div class="sparkbar" data-color="#00a65a" data-height="20">{{i.payment.price | intcomma}}</div>
+                                </td>
+                              </tr>
+                              {% endif %}
+                              {% endfor %}
+                              </tbody>
+                            </table>
+                          </div>
+                          <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.card-body -->
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /.card -->
+            </div>
+          </div>
+          <!-- /.col-md-6 -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+{% endblock content %}
+{% block script %}
+  <!-- OPTIONAL SCRIPTS -->
+  <script src="{% static 'dist/js/Chart.min.js' %}"></script>
+  <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+  <script src="{% static 'dist/js/dashboard3.js' %}"></script>
+{% endblock script %}

@@ -1,0 +1,663 @@
+{% load static %}
+<!doctype html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title>NodePair | Create Meta | {{user}}</title>
+    <script type='text/javascript' src="{% static 'dist/js/jquery.js' %}"></script>
+    <link href="{% static 'dist/css/bootstrap.min.css' %}" rel='stylesheet'>
+    <link href="{% static 'summernote/summernote-lite.min.css' %}" rel='stylesheet'>
+    <link href="{% static 'dist/css/select2.min.css' %}" rel='stylesheet'>
+    <link href="{% static 'dist/css/select2-bootstrap4.min.css' %}" rel='stylesheet'>
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css' rel='stylesheet'>
+    <link href="{% static 'dist/css/style.css' %}" rel='stylesheet'>
+    <script type='text/javascript' src="{% static 'dist/js/sweetalert.js' %}"></script>
+    <style>
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            height: 100%;
+        }
+
+        p {
+            color: grey;
+        }
+
+        #heading {
+            text-transform: uppercase;
+            color: rgba(13, 110, 253, 1) !important;
+            font-weight: normal;
+        }
+
+        #msform {
+            text-align: center;
+            position: relative;
+            margin-top: 20px;
+        }
+
+        #msform fieldset {
+            background: white;
+            border: 0 none;
+            border-radius: 0.5rem;
+            box-sizing: border-box;
+            width: 100%;
+            margin: 0;
+            padding-bottom: 20px;
+
+            /*stacking fieldsets above each other*/
+            position: relative;
+        }
+
+        .form-card {
+            text-align: left;
+        }
+
+        /*Hide all except first fieldset*/
+        #msform fieldset:not(:first-of-type) {
+            display: none;
+        }
+
+        #msform input,
+        #msform textarea {
+            padding: 8px 15px 8px 15px;
+            border: 1px solid #ccc;
+            border-radius: 0px;
+            margin-bottom: 25px;
+            margin-top: 2px;
+            width: 100%;
+            box-sizing: border-box;
+            font-family: montserrat;
+            color: rgba(13, 110, 253, 1) !important;
+            background-color: #ECEFF1 !important;
+            font-size: 16px;
+            letter-spacing: 1px;
+        }
+
+        #msform input:focus,
+        #msform textarea:focus {
+            -moz-box-shadow: none !important;
+            -webkit-box-shadow: none !important;
+            box-shadow: none !important;
+            border: 1px solid rgba(13, 110, 253, 1) !important;
+            outline-width: 0;
+        }
+
+        /*Next Buttons*/
+        #msform .action-button {
+            width: 100px;
+            background: rgba(13, 110, 253, 1) !important;
+            font-weight: bold;
+            color: white !important;
+            border: 0 none;
+            border-radius: 0px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 0px 10px 5px;
+            float: right;
+        }
+
+        #msform .action-button:hover,
+        #msform .action-button:focus {
+            background-color: rgba(13, 110, 253, 1) !important;
+        }
+
+        /*Previous Buttons*/
+        #msform .action-button-previous {
+            width: 100px;
+            background: #616161 !important;
+            font-weight: bold;
+            color: white !important;
+            border: 0 none;
+            border-radius: 0px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px 10px 0px;
+            float: right;
+        }
+
+        #msform .action-button-previous:hover,
+        #msform .action-button-previous:focus {
+            background-color: #000000;
+        }
+
+        /*The background card*/
+        .card {
+            z-index: 0;
+            border: none;
+            position: relative;
+        }
+
+        /*FieldSet headings*/
+        .fs-title {
+            font-size: 25px;
+            color: rgba(13, 110, 253, 1) !important;
+            margin-bottom: 15px;
+            font-weight: normal;
+            text-align: left;
+        }
+
+        .purple-text {
+            color: rgba(13, 110, 253, 1) !important;
+            font-weight: normal;
+        }
+
+        /*Step Count*/
+        .steps {
+            font-size: 25px;
+            color: gray;
+            margin-bottom: 10px;
+            font-weight: normal;
+            text-align: right;
+        }
+
+        /*Field names*/
+        .fieldlabels {
+            color: gray;
+            text-align: left;
+        }
+
+        /*Icon progressbar*/
+        #progressbar {
+            margin-bottom: 30px;
+            overflow: hidden;
+            color: lightgrey;
+        }
+
+        #progressbar .active {
+            color: rgba(13, 110, 253, 1) !important;
+        }
+
+        #progressbar li {
+            list-style-type: none;
+            font-size: 15px;
+            width: 16%;
+            float: left;
+            position: relative;
+            font-weight: 400;
+        }
+
+        /*Icons in the ProgressBar*/
+        #progressbar #account:before {
+            font-family: FontAwesome;
+            content: "\f13e";
+        }
+
+        #progressbar #personal:before {
+            font-family: FontAwesome;
+            content: "\f007";
+        }
+
+        #progressbar #payment:before {
+            font-family: FontAwesome;
+            content: "\f030";
+        }
+
+        #progressbar #confirm:before {
+            font-family: FontAwesome;
+            content: "\f00c";
+        }
+
+        /*Icon ProgressBar before any progress*/
+        #progressbar li:before {
+            width: 50px;
+            height: 50px;
+            line-height: 45px;
+            display: block;
+            font-size: 20px;
+            color: #ffffff;
+            background: lightgray;
+            border-radius: 50%;
+            margin: 0 auto 10px auto;
+            padding: 2px;
+        }
+
+        /*ProgressBar connectors*/
+        #progressbar li:after {
+            content: '';
+            width: 100%;
+            height: 2px;
+            background: lightgray;
+            position: absolute;
+            left: 0;
+            top: 25px;
+            z-index: -1;
+        }
+
+        /*Color number of the step and the connector before it*/
+        #progressbar li.active:before,
+        #progressbar li.active:after {
+            /*background: #36377d;*/
+            background: rgba(13, 110, 253, 1) !important;
+        }
+
+        /*Animated Progress Bar*/
+        .progress {
+            height: 20px;
+        }
+
+        .progress-bar {
+            background-color: rgba(13, 110, 253, 1) !important;
+        }
+
+        /*Fit image in bootstrap div*/
+        .fit-image {
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .cus {
+            width: 100px;
+            height: 100px;
+            margin: auto;
+            object-fit: cover;
+        }
+
+        .cos {
+            width: 100vw;
+        }
+        .select2-selection__rendered{
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="cos col-12 text-center px-5 mt-3 mb-2">
+                <div class="card px-5 pt-4 pb-0 mt-3 mb-3">
+                    <p>Let Us Create Your New Meta</p>
+
+                    <form id="msform" method="post" action="{% url 'createMeta' %}" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="hidden" class="data" name="data">
+                        <!-- progressbar -->
+                        <ul id="progressbar">
+                            <li class="active" id="personal"><strong>overview</strong></li>
+                            <li id="account"><strong>Pricing</strong></li>
+                            <li id="confirm"><strong>Description & FAQ</strong></li>
+                            <li id="confirm"><strong>Requirement</strong></li>
+                            <li id="confirm"><strong>Gallery</strong></li>
+                            <li id="confirm"><strong>Publish</strong></li>
+                        </ul>
+                        <br>
+                        <!-- fieldsets -->
+                        <fieldset>
+
+                            <div class="row mb-5">
+                                <div class="col-3">
+                                    <label for="exampleFormControlTextarea1" class="form-label">META TITLE<span
+                                            class="text-danger">*</span></label>
+                                </div>
+                                <div class="col-9">
+                                    <textarea class="form-control meta-title" id="exampleFormControlTextarea1" rows="4"
+                                        placeholder="I will do something I'm really good at"></textarea>
+                                </div>
+                            </div>
+                            <div class="row mb-5">
+                                <div class="col-3">
+                                    <label for="exampleFormControlInput1"
+                                        class="form-label text-lg-start m-0">CATEGORY<span
+                                            class="text-danger">*</span></label>
+                                </div>
+                                <div class="col-5">
+                                    <div class="form-group text-align">
+                                        <select class="form-control select2bs4 py-3 category" style="width: 100%;">
+                                            <option value="">SELECT A CATEGORY</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="form-group text-align">
+                                        <select class="form-control select2bs4 py-3 sub-category" style="width: 100%;">
+                                            <option value="">SELECT A SUBCATEGORY</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-5">
+                                <div class="col-3">
+                                    <label for="exampleFormControlTextarea1" class="form-label">SEARCH TAGS<span
+                                            class="text-danger">*</span></label>
+                                </div>
+                                <div class="col-9">
+                                    <textarea class="form-control search-tag" id="exampleFormControlTextarea1"
+                                        rows="3"></textarea>
+                                    <div class="row add-search">
+
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <h6 class="text-primary align-items-end mb-5 cursor btn addBtn-search">+Add New</h6>
+                                </div>
+                            </div>
+
+                            <p class="lead"><span class="text-danger">Please note: </span>Some categories require that
+                                sellers verify their skills.</p>
+                            <input type="button" name="next" class="next action-button" value="Continue" />
+                        </fieldset>
+                        <fieldset>
+                            <p class="lead text-center">Create Payment Packages (Must be Three Packages)</p>
+                            <div class="row mb-5">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select payType" id="floatingSelect">
+                                                <option>Basic</option>
+                                                <option>Premium</option>
+                                                <option>Special</option>
+                                            </select>
+                                            <label for="floatingSelect">Choose a Package</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control payHeading" id="floatingInput"
+                                                placeholder="Basic">
+                                            <label for="floatingInput">header</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select colorValue" id="floatingSelect">
+                                                <option>primary</option>
+                                                <option>danger</option>
+                                                <option>success</option>
+                                                <option>dark</option>
+                                            </select>
+                                            <label for="floatingSelect">Choose a Color</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-floating mb-3">
+                                            <input type="number" class="form-control price" id="floatingInput"
+                                                placeholder="$20.00">
+                                            <label for="floatingInput">Price in Dollar</label>
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Please select a valid price.
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select duration" id="floatingSelect">
+                                                <option value="1">1 day delivery</option>
+                                                <option value="2">2 days delivery</option>
+                                                <option value="3">3 days delivery</option>
+                                                <option value="4">4 days delivery</option>
+                                                <option value="5">5 days delivery</option>
+                                                <option value="6">6 days delivery</option>
+                                                <option value="7">1 Week delivery</option>
+                                                <option value="14">2 Weeks delivery</option>
+                                                <option value="21">3 Weeks delivery</option>
+                                                <option value="28">1 Month delivery</option>
+                                                <option value="56">2 Months delivery</option>
+                                                <option value="84">3 Months delivery</option>
+                                                <option value="112">4 Months delivery</option>
+                                                <option value="140">5 Months delivery</option>
+                                                <option value="168">6 Months delivery</option>
+                                                <option value="196">7 Months delivery</option>
+                                                <option value="224">8 Months delivery</option>
+                                                <option value="252">9 Months delivery</option>
+                                                <option value="280">10 Months delivery</option>
+                                                <option value="308">11 Months delivery</option>
+                                                <option value="336">1 year delivery</option>
+                                            </select>
+                                            <label for="floatingSelect">service time</label>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <hr class="my-4">
+                                        <h3 class="lead my-4">services offer</h3>
+                                        <div class="col-12">
+                                            <input type="text" class="form-control serviceInput" id="floatingInput"
+                                                placeholder="Full-Time Engagement">
+                                        </div>
+                                        <div class="col-12">
+                                            <h6 class="text-primary align-items-end mb-5 cursor btn serviceBtn">+Add Service
+                                            </h6>
+                                        </div>
+                                        <div class="col-12 text-lg-start add-service">
+                                            
+                                        </div>
+                                    </div>
+                                    <hr class="my-4">
+                                </div>
+                                <div class="col-12">
+                                    <h6 class="text-primary align-items-end mb-5 cursor btn addPayment">+Add New</h6>
+                                </div>
+                                <div class="col-12 payItem">
+                                    
+                                </div>
+                            </div>
+                            <input type="button" name="next" class="next sub action-button" value="Continue" />
+                        </fieldset>
+                        <fieldset>
+                            <h3 class="lead fw-bloder text-primary">Description</h3>
+                            <div class="row mb-3">
+                                <div class="col-12">
+                                    <textarea id="summernote" class="form-control edit description" rows="4">
+                                        type <em>a brief</em> <u>description</u> about what you <strong>offer</strong>
+                                    </textarea>
+                                </div>
+                                <div class="col-12">
+                                    <hr class="my-4">
+                                    <h3 class="lead fw-bloder text-primary">FAQ</h3>
+                                    <hr class="my-4">
+                                </div>
+                                <div class="col-12">
+                                    <input type="text" class="form-control question" id="exampleFormControlInput1"
+                                        placeholder="Question">
+                                    <textarea class="form-control answer" id="exampleFormControlTextarea1" rows="4"
+                                        placeholder="Answer"></textarea>
+                                </div>
+                                <div class="col-12">
+                                    <h6 class="text-primary align-items-end mb-5 cursor btn addFAQ">+Add New</h6>
+                                </div>
+                                <div class="col-12">
+                                    <div class="accordion faq" id="accordionExample">
+                                    
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="button" name="next" class="next sub action-button" value="Continue" />
+                        </fieldset>
+                        <fieldset>
+                            <div class="row mb-3">
+                                <div class="col-12">
+                                    <div class="card w-100 border mt-4">
+                                        <h3 class="fw-bold text-start pt-2 mx-3 text-primary">Tell your buyers what you
+                                            need to get started.</h3>
+                                        <small class=" mx-3 lead text-start">Structure your Buyer Instructions as free
+                                            text, a
+                                            multiple choice question or file upload.</small>
+                                        <div class="mt-5 pt-2 card border bg-light mx-3 mb-4">
+                                            <h3 class="lead text-start mb-3 mx-4 pt-0 text-primary">Requirement Note
+                                            </h3>
+                                            <textarea class="form-control border border-primary pb-4 requireNote"
+                                                id="exampleFormControlTextarea1" rows="4"
+                                                placeholder="#Requirement Note"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="button" name="next" class="next sub action-button" value="Continue" />
+                        </fieldset>
+                        <fieldset>
+                            <div class="row mb-3">
+                                <hr class="p-2">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <div class="text-start">Meta Video</div>
+                                            <p class="text-start">Add a relevant, high quality video that best showcases
+                                                your Meta.</p>
+                                            <div class="text-start text-muted pt-0">Please choose a video shorter than
+                                                75 seconds and smaller than 50mb</div>
+                                        </div>
+                                        <div class="col-4 text-end videoNum">(0/1)</div>
+                                    </div>
+                                    <div class="bg-light border-secondary rounded-4 mt-4 video"
+                                        style="width: 250px; height: 250px;border-style: dashed"><input type="file" name="videoInput" class="videoInput" hidden accept=".mp4"></div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <hr class="p-2">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <div class="text-start">Meta Photos</div>
+                                            <p class="text-start">Upload photos that describe or are related to your
+                                                Meta.</p>
+                                        </div>
+                                        <div class="col-4 text-end imgNum">(0/3)</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3 border-secondary rounded-4 bg-light mt-4 me-3 img1"
+                                            style="height: 250px;border-style: dashed"><input type="file" name="img1Input" class="img1Input" hidden accept=".png,.jpeg,.jpg"></div>
+                                        <div class="col-3 border-secondary rounded-4 bg-light mt-4 me-3 img2"
+                                            style="height: 250px;border-style: dashed"><input type="file" name="img2Input" class="img2Input" hidden accept=".png,.jpeg,.jpg"></div>
+                                        <div class="col-3 border-secondary rounded-4 bg-light mt-4 me-3 img3"
+                                            style="height: 250px;border-style: dashed"><input type="file" name="img3Input" class="img3Input" hidden accept=".png,.jpeg,.jpg"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <hr class="p-2">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <div class="text-start">Meta PDFs</div>
+                                            <p class="text-start">We only recommend adding a PDF file if it further
+                                                clarifies the service you will be providing.</p>
+                                        </div>
+                                        <div class="col-4 text-end pdfNum">(0/2)</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4 border-secondary rounded-4 bg-light mt-4 me-3 pdf1"
+                                            style="height: 250px;border-style: dashed"><input type="file" name="pdf1Input" class="pdf1Input" hidden accept=".pdf"></div>
+                                        <div class="col-4 border-secondary rounded-4 bg-light mt-4 me-3 pdf2"
+                                            style="height: 250px;border-style: dashed"><input type="file" name="pdf2Input" class="pdf2Input" hidden accept=".pdf"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="button" name="next" class="next sub action-button" value="Continue" />
+                        </fieldset>
+                        <fieldset>
+                            <div class="d-flex justify-content-center flex-column align-items-center">
+                                <div aria-labelledby="swal2-title" aria-describedby="swal2-html-container"
+                                    class="swal2-popup swal2-modal swal2-icon-success swal2-show" tabindex="-1"
+                                    role="dialog" aria-live="assertive" aria-modal="true" style="display: grid;"><button
+                                        type="button" class="swal2-close" aria-label="Close this dialog"
+                                        style="display: none;">×</button>
+                                    <ul class="swal2-progress-steps" style="display: none;"></ul>
+                                    <div class="swal2-icon swal2-success swal2-icon-show" style="display: flex;">
+                                        <div class="swal2-success-circular-line-left"
+                                            style="background-color: rgb(255, 255, 255);"></div>
+                                        <span class="swal2-success-line-tip"></span> <span
+                                            class="swal2-success-line-long"></span>
+                                        <div class="swal2-success-ring"></div>
+                                        <div class="swal2-success-fix" style="background-color: rgb(255, 255, 255);">
+                                        </div>
+                                        <div class="swal2-success-circular-line-right"
+                                            style="background-color: rgb(255, 255, 255);"></div>
+                                    </div><img class="swal2-image" style="display: none;">
+                                    <h2 class="swal2-title" id="swal2-title" style="display: block;">SUCCESS !</h2>
+                                    <div class="swal2-html-container" id="swal2-html-container" style="display: block;">
+                                        You Have Successfully gotten to the end.</div>
+                                    <p>Let's publish your Meta and get some buyers rolling in.</p>
+                                    <input class="swal2-input" style="display: none;"><input type="file"
+                                        class="swal2-file" style="display: none;">
+                                    <div class="swal2-range" style="display: none;"><input
+                                            type="range"><output></output></div><select class="swal2-select"
+                                        style="display: none;"></select>
+                                    <div class="swal2-radio" style="display: none;"></div><label for="swal2-checkbox"
+                                        class="swal2-checkbox" style="display: none;"><input type="checkbox"><span
+                                            class="swal2-label"></span></label><textarea class="swal2-textarea"
+                                        style="display: none;"></textarea>
+                                    <div class="swal2-validation-message" id="swal2-validation-message"
+                                        style="display: none;"></div>
+                                    <div class="swal2-actions" style="display: flex;">
+                                        <div class="swal2-loader"></div><button type="button"
+                                            class="swal2-confirm swal2-styled" aria-label=""
+                                            style="display: none;">OK</button><button type="button"
+                                            class="swal2-deny swal2-styled" aria-label=""
+                                            style="display: none;">No</button><button type="button"
+                                            class="swal2-cancel swal2-styled" aria-label=""
+                                            style="display: none;">Cancel</button>
+                                    </div>
+                                    <div class="swal2-footer" style="display: none;"></div>
+                                    <div class="swal2-timer-progress-bar-container">
+                                        <div class="swal2-timer-progress-bar" style="display: none;"></div>
+                                    </div>
+                                </div>
+                                <input type="submit" class="btn btn-outline-primary w-50 rounded-5" value="Save & Publish.">
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'dist/js/jquery.js' %}"></script>
+    <script type='text/javascript' src="{% static 'dist/js/bootstrap.bundle.js' %}"></script>
+    <script type='text/javascript' src="{% static 'summernote/summernote-lite.min.js' %}"></script>
+    <script src="{% static 'dist/js/select2.full.min.js' %}"></script>
+    <script type='text/javascript' src="{% static 'dist/js/meta.js' %}"></script>
+    <script>
+        $(document).ready(function () {
+            // Summernote
+            $('#summernote').summernote({
+                height: 300,
+                minHeight: null,
+                maxHeight: null,
+                focus: true,
+                placeholder: "",
+                tabsize: 2,
+                toolbar: [
+                    ["style", ["style"]],
+                    ["font", ["bold", "underline", "clear"]],
+                    ["color", ["color"]],
+                    ["para", ["ul", "ol", "paragraph"]],
+                    ["table", ["table"]],
+                    ["insert", ["link", "picture", "video"]],
+                    ["view", ["fullscreen", "codeview", "help"]]
+                ]
+            });
+
+            //Initialize Select2 Elements
+            $('.select2').select2()
+
+            $('.select2bs4').select2({
+                theme: 'bootstrap4'
+            })
+        })
+    </script>
+</body>
+
+</html>

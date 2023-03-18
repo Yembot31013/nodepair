@@ -1,0 +1,514 @@
+{% load static %}
+<!doctype html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title>NodePair | Create Profile | {{user}}</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link href="{% static 'dist/css/bootstrap.min.css' %}" rel='stylesheet'>
+    <link href="{% static 'dist/css/select2.min.css' %}" rel='stylesheet'>
+    <link rel="stylesheet" href="{% static 'select2-bootstrap-5-theme-1.3.0/select2-bootstrap-5-theme.min.css' %}">
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css' rel='stylesheet'>
+    <script type='text/javascript' src="{% static 'dist/js/jquery.js' %}"></script>
+    <script type='text/javascript' src="{% static 'dist/js/sweetalert.js' %}"></script>
+    <style>
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+    
+        /* Track */
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+    
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+        }
+    
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    
+        * {
+            margin: 0;
+            padding: 0;
+        }
+    
+        html {
+            height: 100%;
+        }
+    
+        p {
+            color: grey;
+        }
+    
+        #heading {
+            text-transform: uppercase;
+            color: rgba(13, 110, 253, 1) !important;
+            font-weight: normal;
+        }
+    
+        #msform {
+            text-align: center;
+            position: relative;
+            margin-top: 20px;
+        }
+    
+        #msform fieldset {
+            background: white;
+            border: 0 none;
+            border-radius: 0.5rem;
+            box-sizing: border-box;
+            width: 100%;
+            margin: 0;
+            padding-bottom: 20px;
+    
+            /*stacking fieldsets above each other*/
+            position: relative;
+        }
+    
+        .form-card {
+            text-align: left;
+        }
+    
+        /*Hide all except first fieldset*/
+        #msform fieldset:not(:first-of-type) {
+            display: none;
+        }
+    
+        #msform input,
+        #msform textarea {
+            padding: 8px 15px 8px 15px;
+            border: 1px solid #ccc;
+            border-radius: 0px;
+            margin-bottom: 25px;
+            margin-top: 2px;
+            width: 100%;
+            box-sizing: border-box;
+            font-family: montserrat;
+            color: rgba(13, 110, 253, 1) !important;
+            background-color: #ECEFF1 !important;
+            font-size: 16px;
+            letter-spacing: 1px;
+        }
+    
+        #msform input:focus,
+        #msform textarea:focus {
+            -moz-box-shadow: none !important;
+            -webkit-box-shadow: none !important;
+            box-shadow: none !important;
+            border: 1px solid rgba(13, 110, 253, 1) !important;
+            outline-width: 0;
+        }
+    
+        /*Next Buttons*/
+        #msform .action-button {
+            width: 100px;
+            background: rgba(13, 110, 253, 1) !important;
+            font-weight: bold;
+            color: white !important;
+            border: 0 none;
+            border-radius: 0px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 0px 10px 5px;
+            float: right;
+        }
+    
+        #msform .action-button:hover,
+        #msform .action-button:focus {
+            background-color: rgba(13, 110, 253, 1) !important;
+        }
+    
+        /*Previous Buttons*/
+        #msform .action-button-previous {
+            width: 100px;
+            background: #616161 !important;
+            font-weight: bold;
+            color: white !important;
+            border: 0 none;
+            border-radius: 0px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px 10px 0px;
+            float: right;
+        }
+    
+        #msform .action-button-previous:hover,
+        #msform .action-button-previous:focus {
+            background-color: #000000;
+        }
+    
+        /*The background card*/
+        .card {
+            z-index: 0;
+            border: none;
+            position: relative;
+        }
+    
+        /*FieldSet headings*/
+        .fs-title {
+            font-size: 25px;
+            color: rgba(13, 110, 253, 1) !important;
+            margin-bottom: 15px;
+            font-weight: normal;
+            text-align: left;
+        }
+    
+        .purple-text {
+            color: rgba(13, 110, 253, 1) !important;
+            font-weight: normal;
+        }
+    
+        /*Step Count*/
+        .steps {
+            font-size: 25px;
+            color: gray;
+            margin-bottom: 10px;
+            font-weight: normal;
+            text-align: right;
+        }
+    
+        /*Field names*/
+        .fieldlabels {
+            color: gray;
+            text-align: left;
+        }
+    
+        /*Icon progressbar*/
+        #progressbar {
+            display: flex;
+            margin-bottom: 30px;
+            overflow: hidden;
+            color: lightgrey;
+            width: 100%;
+            justify-content: center;
+        }
+    
+        #progressbar .active {
+            color: rgba(13, 110, 253, 1) !important;
+        }
+    
+        #progressbar li {
+            list-style-type: none;
+            font-size: 15px;
+            width: 16%;
+            float: left;
+            position: relative;
+            font-weight: 400;
+        }
+    
+        /*Icons in the ProgressBar*/
+        #progressbar #account:before {
+            font-family: FontAwesome;
+            content: "\f13e";
+        }
+    
+        #progressbar #personal:before {
+            font-family: FontAwesome;
+            content: "\f007";
+        }
+    
+        #progressbar #payment:before {
+            font-family: FontAwesome;
+            content: "\f030";
+        }
+    
+        #progressbar #confirm:before {
+            font-family: FontAwesome;
+            content: "\f00c";
+        }
+    
+        /*Icon ProgressBar before any progress*/
+        #progressbar li:before {
+            width: 50px;
+            height: 50px;
+            line-height: 45px;
+            display: block;
+            font-size: 20px;
+            color: #ffffff;
+            background: lightgray;
+            border-radius: 50%;
+            margin: 0 auto 10px auto;
+            padding: 2px;
+        }
+    
+        /*ProgressBar connectors*/
+        #progressbar li:after {
+            content: '';
+            width: 100%;
+            height: 2px;
+            background: lightgray;
+            position: absolute;
+            left: 0;
+            top: 25px;
+            z-index: -1;
+        }
+    
+        /*Color number of the step and the connector before it*/
+        #progressbar li.active:before,
+        #progressbar li.active:after {
+            /*background: #36377d;*/
+            background: rgba(13, 110, 253, 1) !important;
+        }
+    
+        /*Animated Progress Bar*/
+        .progress {
+            height: 20px;
+        }
+    
+        .progress-bar {
+            background-color: rgba(13, 110, 253, 1) !important;
+        }
+    
+        /*Fit image in bootstrap div*/
+        .fit-image {
+            width: 100%;
+            object-fit: cover;
+        }
+    
+        .cus {
+            width: 100px;
+            height: 100px;
+            margin: auto;
+            object-fit: cover;
+        }
+    
+        .cos {
+            width: 100vw;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="cos col-12 text-center px-5 mt-3 mb-2">
+                <div class="card px-5 pt-4 pb-0 mt-3 mb-3">
+                    <p>Let Create Your Profile First</p>
+
+                    <form id="msform">
+                        {% csrf_token %}
+                        <input type="hidden" class="u_token" value="{{u_token}}">
+                        <!-- progressbar -->
+                        <ul id="progressbar">
+                            <li class="active" id="personal"><strong>Personal Info</strong></li>
+                            <li id="account"><strong>Professional Info</strong></li>
+                            <li id="confirm"><strong>Finish</strong></li>
+                        </ul>
+                        <br>
+                        <!-- fieldsets -->
+                        <fieldset>
+                            <div class="form-card">
+                                <h3 class="px-5">Personal Info</h3>
+                                <p class="px-5">Tell us a bit about yourself. This information will appear on your
+                                    public profile, so that potential buyers can get to know you better.</p>
+                                <hr>
+                            </div>
+                            <div class="row mb-5">
+                                <div class="col-3">
+                                    <label for="exampleFormControlInput1" class="form-label text-lg-start m-0">Full
+                                        Name<span class="text-danger">*</span></label>
+                                </div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control fullname" id="exampleFormControlInput1"
+                                        placeholder="Enter your name" required>
+                                </div>
+                            </div>
+                            <div class="row mb-5">
+                                <div class="col-3">
+                                    <label for="exampleFormControlInput1" class="form-label text-lg-start m-0">slogan <span class="text-danger">*</span></label>
+                                </div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control slogan" id="exampleFormControlInput1"
+                                        placeholder="Enter your business slogan" required>
+                                </div>
+                            </div>
+                            <div class="row mb-5">
+                                <div class="col-3">
+                                    <label for="exampleFormControlTextarea1" class="form-label">Profile Picture<span
+                                            class="text-danger">*</span></label>
+                                </div>
+                                <div class="col-9">
+                                    <div class="pic rounded-circle bg-secondary cus text-center text-white fw-bolder" title="click to upload picture"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="currentColor" class="bi bi-person-fill"
+                                        viewBox="0 0 16 16">
+                                        <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+                                    </svg></div>
+                                    <img src="" alt="" class="picer rounded-circle bg-secondary cus text-center text-white fw-bolder" style="display: none;">
+                                    <input type="file" class="pics" accept=".png, .jpeg, .jpg" hidden >
+                                </div>
+                            </div>
+                            <div class="row mb-5">
+                                <div class="col-3">
+                                    <label for="exampleFormControlTextarea1" class="form-label">Description<span
+                                            class="text-danger">*</span></label>
+                                </div>
+                                <div class="col-9">
+                                    <textarea class="form-control desc" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="row mb-5">
+                                <div class="col-3">
+                                    <label for="exampleFormControlTextarea1" class="form-label">Language<span class="text-danger">*</span></label>
+                                    <p>Select which languages you can communicate in</p>
+                                </div>
+                                <div class="col-5">
+                                    <input type="text" class="form-control lang" id="exampleFormControlInput1"
+                                        placeholder="Language" required>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group text-align">
+                                        <select class="form-control select2bs4 py-3 lang_level" style="width: 100%;">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <h6 class="text-primary align-items-end mb-5 btn langs"> +Add New</h6>
+                                </div>
+                                <div class="col-12 langer">
+                                    
+                                </div>
+                            </div>
+                            <input type="button" name="next" class="next action-button" value="Continue" />
+                        </fieldset>
+                        <fieldset>
+                            <div class="form-card">
+                                <h3>Professional Info</h3>
+                                <p>This is your time to shine. Let potential buyers know what you do best and how you
+                                    gained your skills, certifications, and experience.</p>
+                                <hr>
+                            </div>
+                            <div class="row mb-5">
+                                <div class="col-3">
+                                    <label for="exampleFormControlInput1"
+                                        class="form-label text-lg-start m-0">Occupations<span
+                                            class="text-danger">*</span></label>
+                                </div>
+                                <div class="col-5">
+                                    <div class="form-group text-align">
+                                        <select class="form-control select2bs4 py-3 occup" style="width: 100%;">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <input type="number" class="form-control fyear" id="exampleFormControlInput1"
+                                        placeholder="From Year" required>
+                                </div>
+                                <div class="col-2">
+                                    <input type="number" class="form-control tyear" id="exampleFormControlInput1"
+                                        placeholder="To Year" required>
+                                </div>
+                                <div class="col-12">
+                                    <h6 class="text-primary align-items-end mb-5 cursor btn addo">+Add New</h6>
+                                </div>
+                                <div class="col-12 occupv">
+                                    
+                                </div>
+                            </div>
+                            <div class="row mb-5">
+                                <div class="col-3">
+                                    <label for="exampleFormControlInput1"
+                                        class="form-label text-lg-start m-0">Skills<span
+                                            class="text-danger">*</span></label>
+                                </div>
+                                <div class="col-5">
+                                    <div class="form-group text-align">
+                                        <select class="form-control select2bs4 py-3 skill" style="width: 100%;">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group text-align">
+                                        <select class="form-control select2bs4 py-3 level" style="width: 100%;">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <h6 class="text-primary align-items-end mb-5 btn addsk"> +Add New</h6>
+                                </div>
+                                <div class="col-12 occups">
+                                    
+                                </div>
+                            </div>
+
+                            <div class="row mb-5">
+                                <div class="col-3">
+                                    <label for="exampleFormControlTextarea1" class="form-label">Personal Website</label>
+                                    <p>private</p>
+                                </div>
+                                <div class="col-9">
+                                    <input type="url" class="form-control url" id="exampleFormControlInput1"
+                                        placeholder="Provide a link to your own professional website." required>
+                                </div>
+                            </div>
+                            <input type="button" name="next" class="next sub action-button" value="Next" />
+                        </fieldset>
+                        <fieldset>
+                            <div class="d-flex justify-content-center flex-column align-items-center">
+                                <div aria-labelledby="swal2-title" aria-describedby="swal2-html-container"
+                                    class="swal2-popup swal2-modal swal2-icon-success swal2-show" tabindex="-1" role="dialog" aria-live="assertive"
+                                    aria-modal="true" style="display: grid;"><button type="button" class="swal2-close"
+                                        aria-label="Close this dialog" style="display: none;">×</button>
+                                    <ul class="swal2-progress-steps" style="display: none;"></ul>
+                                    <div class="swal2-icon swal2-success swal2-icon-show" style="display: flex;">
+                                        <div class="swal2-success-circular-line-left" style="background-color: rgb(255, 255, 255);"></div>
+                                        <span class="swal2-success-line-tip"></span> <span class="swal2-success-line-long"></span>
+                                        <div class="swal2-success-ring"></div>
+                                        <div class="swal2-success-fix" style="background-color: rgb(255, 255, 255);"></div>
+                                        <div class="swal2-success-circular-line-right" style="background-color: rgb(255, 255, 255);"></div>
+                                    </div><img class="swal2-image" style="display: none;">
+                                    <h2 class="swal2-title" id="swal2-title" style="display: block;">SUCCESS !</h2>
+                                    <div class="swal2-html-container" id="swal2-html-container" style="display: block;">You Have Successfully created a Profile</div>
+                                    <input class="swal2-input" style="display: none;"><input type="file" class="swal2-file" style="display: none;">
+                                    <div class="swal2-range" style="display: none;"><input type="range"><output></output></div><select
+                                        class="swal2-select" style="display: none;"></select>
+                                    <div class="swal2-radio" style="display: none;"></div><label for="swal2-checkbox" class="swal2-checkbox"
+                                        style="display: none;"><input type="checkbox"><span class="swal2-label"></span></label><textarea
+                                        class="swal2-textarea" style="display: none;"></textarea>
+                                    <div class="swal2-validation-message" id="swal2-validation-message" style="display: none;"></div>
+                                    <div class="swal2-actions" style="display: flex;">
+                                        <div class="swal2-loader"></div><button type="button" class="swal2-confirm swal2-styled" aria-label=""
+                                            style="display: none;">OK</button><button type="button" class="swal2-deny swal2-styled"
+                                            aria-label="" style="display: none;">No</button><button type="button" class="swal2-cancel swal2-styled"
+                                            aria-label="" style="display: none;">Cancel</button>
+                                    </div>
+                                    <div class="swal2-footer" style="display: none;"></div>
+                                    <div class="swal2-timer-progress-bar-container">
+                                        <div class="swal2-timer-progress-bar" style="display: none;"></div>
+                                    </div>
+                                </div>
+                                {% if page == "meta" %}
+                                <a class="btn btn-primary submitProfile" href="{% url 'metas' %}">Continue & Create Your First Node.</a>
+                                {% elif page == "project" %}
+                                <a class="btn btn-primary submitProfile" href="{% url 'project' %}"> Continue & Create Your First Node.</a>
+                                {% endif %}
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'dist/js/jquery.js' %}"></script>
+    <script type='text/javascript' src="{% static 'dist/js/bootstrap.bundle.js' %}"></script>
+    <script src="{% static 'dist/js/select2.full.min.js' %}"></script>
+    <script type='text/javascript' src="{% static 'dist/js/progress.js' %}"></script>
+    <script>
+        $(function () {
+            //Initialize Select2 Elements
+            $('.select2').select2()
+
+            //Initialize Select2 Elements
+            $('.select2bs5').select2({
+                theme: 'bootstrap-5'
+            })
+        })
+    </script>
+</body>
+
+</html>

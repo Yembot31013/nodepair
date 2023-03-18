@@ -1,0 +1,120 @@
+{% extends 'homes/homeBase.html' %}
+{% load static %}
+{% block title %}result for {{query}}{% endblock title %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'dist/css/all.min.css' %}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'dist/css/adminlte.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/custom.css' %}" />
+<style>
+  .bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+  }
+
+  #searchBar:focus {
+    width: 700px;
+  }
+
+  @media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+      font-size: 3.5rem;
+    }
+  }
+</style>
+{% endblock style %}
+{% block content %}
+      
+      {% if not metaqueryset and not projectqueryset %}
+      <main class="container my-5">
+        <div class="bg-light p-5 rounded">
+          <h1>Query "{{query}}" Not Found</h1>
+          <p class="lead">Your query is not found maybe you should check your keyword properly and also your language.</p>
+          <a class="btn btn-lg btn-primary" href="{% url 'homes' %}" role="button">Go Back &raquo;</a>
+        </div>
+      </main>
+      {% endif %}
+    
+    <input type="hidden" id="queryInput" value="{{query}}">
+    <!-- Adventure begins -->
+    {% if metaqueryset %}
+    <div class="container mt-5 mb-5">
+      <div class="row" id="metaQuery">
+        {% for i in metaqueryset %}
+        <div class="col-md-4">
+          <div class="ph-item shadow-lg rounded-3">
+            <div class="ph-col-12">
+              <div class="ph-picture"></div>
+              <div class="ph-row">
+                <div class="ph-col-8 empty"></div>
+                <div class="ph-col-4"></div>
+                <div class="ph-col-12"></div>
+              </div>
+            </div>
+            <div class="ph-col-2">
+              <div class="ph-avatar"></div>
+            </div>
+            <div>
+              <div class="ph-row">
+                <div class="ph-col-12"></div>
+                <div class="ph-col-2"></div>
+                <div class="ph-col-10 empty"></div>
+                <div class="ph-col-8 big"></div>
+                <div class="ph-col-4 big empty"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>  
+    </div>
+    {% endif %}
+
+    {% if projectqueryset %}
+    <div class="container mt-5 mb-5">
+      <div class="row" id="projectQuery">
+        {% for i in projectqueryset %}
+        <div class="col-md-4">
+          <div class="ph-item shadow-lg rounded-3">
+            <div class="ph-col-12">
+              <div class="ph-picture"></div>
+              <div class="ph-row">
+                <div class="ph-col-8 empty"></div>
+                <div class="ph-col-4"></div>
+                <div class="ph-col-12"></div>
+              </div>
+            </div>
+            <div class="ph-col-2">
+              <div class="ph-avatar"></div>
+            </div>
+            <div>
+              <div class="ph-row">
+                <div class="ph-col-12"></div>
+                <div class="ph-col-2"></div>
+                <div class="ph-col-10 empty"></div>
+                <div class="ph-col-8 big"></div>
+                <div class="ph-col-4 big empty"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>  
+    </div>
+    {% endif %}
+  {% endblock content %}
+{% block script %}
+    <script src="{% static 'dist/js/query.js' %}"></script>
+    <script>
+    <img data-lazy="img/lazyfonz1.png"/>
+    
+    $('.lazy').slick({
+      lazyLoad: 'ondemand',
+      slidesToShow: 3,
+      slidesToScroll: 1
+    });
+    </script>
+{% endblock script %}

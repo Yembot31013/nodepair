@@ -1,0 +1,388 @@
+{% extends 'homes/homeBase.html' %}
+{% load static %}
+{% load escape_script %}
+{% block title %}{{seller.full_Name}}{% endblock title %}
+{% block style %}
+ <link rel="stylesheet" href="{% static 'dist/css/all.min.css' %}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'dist/css/adminlte.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/custom.css' %}" />
+{% endblock style %}
+{% block header %}
+  <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">{{obj.title}}</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+              <li class="breadcrumb-item active">{{obj.title|slugify}}</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+{% endblock header %}
+{% block content %}
+  <div class="wrapper">
+  <!-- Content Wrapper. Contains page content -->
+  <div class="container">
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <!-- /.col -->
+          <div class="col-md-8">
+              <!-- Default box -->
+              <div class="card card-solid">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-12">
+                      <h3 class="d-inline-block d-sm-none">{{obj.title}}</h3>
+                      <div class="col-12 product-content">
+                        {% if obj.video.url %}
+                        <video class="product-image" style="max-height: 270px; width: 100%;" controls controlsList="nodownload">
+                          <source class="h-100 w-auto" draggable="false"  src="{{obj.video.url}}" type="video/mp4"/>
+                        </video>
+                        {% else %}
+                        <img class="product-image" src="{{obj.gallery_set.first.Picture.url}}" alt="Product Image">
+                        {% endif %}
+                      </div>
+                      <div class="col-12 product-image-thumbs">
+                        {% if obj.video.url %}
+                          <div class="product-image-thumb active">
+                            <video style="max-height: 270px; width: 100%;">
+                              <source class="h-100 w-auto" draggable="false"  src="{{obj.video.url}}" type="video/mp4" />
+                            </video>
+                          </div>
+                        {% endif %}
+                        {% for i in obj.gallery_set.all %}
+                          <div class="product-image-thumb">
+                            <img src="{{i.Picture.url}}" alt="Product Image">
+                          </div>
+                        {% endfor %}
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <h3 class="my-3">{{obj.title}}</h3>
+                      <p>{% autoescape off %}
+                      {{obj.description|filterme}}
+                      {% endautoescape %}</p>
+                      <hr>
+                      <h4>FAQ</h4>
+                      <div class="row">
+                        <div class="col-12" id="accordion">
+                          {% for i in obj.faq_set.all %}
+                          <div class="card card-primary card-outline">
+                                <a class="d-block w-100 p-2" data-toggle="collapse" href="#collapse{{i.id}}">
+                                    <div class="card-header">
+                                        <h4 class="card-title w-100">
+                                            {{i.question}}
+                                        </h4>
+                                    </div>
+                                </a>
+                                <div id="collapse{{i.id}}" class="collapse" data-parent="#accordion">
+                                    <div class="card-body">
+                                        {{i.answer}}
+                                    </div>
+                                </div>
+                            </div>
+                          {% endfor %}
+                        </div>
+                      </div>
+
+                      <h4 class="mt-3">Compare Packages</h4>
+                    </div>
+                  </div>
+                  <div class="row mt-4">
+                    <nav class="w-100">
+                      <div class="nav nav-tabs" id="product-tab" role="tablist">
+                      {% for i in obj.meta_pricing.all %}
+                      <a class="nav-item nav-link {% if forloop.first %}active{% endif %}" id="price{{i.id}}-tab" data-toggle="tab" href="#price{{i.id}}" role="tab" aria-controls="price{{i.id}}" aria-selected="true">{{i.heading}}</a>
+                      {% endfor %}
+                      </div>
+                    </nav>
+                    <div class="tab-content p-3" id="nav-tabContent">
+                    {% for i in obj.meta_pricing.all %}
+                    <div class="tab-pane fade show {% if forloop.first %}active{% endif %}" id="price{{i.id}}" role="tabpanel" aria-labelledby="price{{i.id}}-tab">
+                    <h4 class="my-0 fw-normal">{{i.heading}}</h4>
+                    <p class="lead">({{i.delivery_time}} days delivery)</p>
+                    <h3 class="mt-3">services offer</h3>
+                    <ul class="list-unstyled mt-3 mb-4">
+                    {%for i in i.service_offer_set.all %}
+                    <li>✔ {{i.service_name}}</li>
+                    {% endfor %}
+                    <a
+                      href="{% url 'payment_package' obj.id %}"
+                      class="mt-4 w-100 btn btn-lg btn-outline-primary text-nowrap text-center"
+                    >
+                      View Packages
+                    </a>
+                    </div>
+                    {% endfor %}
+                    </div>
+                  </div>
+                </div>
+                <!-- /.card-body -->
+              </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+          <div class="col-md-4">
+            <!-- Profile Image -->
+            <div class="card card-primary card-outline">
+              <video class="checkOutVideo" style="max-height: 270px;" controls controlsList="nodownload">
+                <source class="h-100 w-100" draggable="false"  src="{{obj.video.url}}" type="video/mp4" />
+              </video>
+              <div class="card-body box-profile">
+                <div class="text-center">
+                  <span class="badge badge-success navbar-badge text-sm" id="online">New Seller</span>
+                </div>
+                <h4 class="text-primary">{{obj.title}}</h4>
+                <div class="d-flex justify-content-between">
+                  <p class="profile-username lead text-danger">({{obj.meta_pricing.first.delivery_time}} days delivery)</p>
+                  <p class="profile-username">${{obj.meta_pricing.first.Price}}</p>
+                </div>
+                <ul class="list-group list-group-unbordered mb-3">
+                {% for i in obj.meta_pricing.all %}
+                {%for i in i.service_offer_set.all %}
+                  <li class="list-group-item">
+                    <b>✔</b> <a class="float-right">{{i.service_name}}</a>
+                  </li>
+                {% endfor %}
+                {% endfor %}
+                </ul>
+                <a href="{% url 'payment_package' obj.id %}" class="btn btn-primary btn-block"><b>Check Packages</b>(${{obj.meta_pricing.first.Price}})</a>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+        <!-- /.row -->
+
+        <div class="row">
+          <!-- /.col -->
+          <div class="col-md-8">
+            <!-- Profile Image -->
+            <div class="card card-primary card-outline">
+              <div class="card-body box-profile">
+                <div class="text-center">
+                  <img class="profile-user-img img-fluid img-circle"
+                        src="{{seller.avatar}}"
+                        alt="{{seller.full_Name}}" style="width: 100px; height: 100px;">
+                  {% if seller.profile_status.online %}
+                  <span class="badge badge-success navbar-badge text-sm" id="online">Online</span>
+                  {% else %}
+                  <span class="badge badge-secondary navbar-badge text-sm" id="offline">Available</span>
+                  {% endif %}
+                </div>
+
+                <h3 class="profile-username text-center">{{seller.full_Name}}</h3>
+
+                <p class="text-muted text-center">Software Engineer</p>
+                <a href="{% url 'seller_info' seller.slug %}" class="btn btn-primary btn-block"><b>See More Detail</b></a>
+                <ul class="list-group list-group-unbordered mb-3">
+                  <li class="list-group-item">
+                    <b><i class="fas fa-map-marker-alt mr-1"></i>From</b> <a class="float-right">{{seller.location}}</a>
+                  </li>
+                  <li class="list-group-item">
+                    <b>Members Since</b> <a class="float-right">{{seller.date}}</a>
+                  </li>
+                  <li class="list-group-item">
+                    <b>Avg Response Time</b> <a class="float-right">{{seller.calculate_response_time}} hour{{seller.calculate_response_time|pluralize}}</a>
+                  </li>
+                  <li class="list-group-item">
+                    <b>Last Delivery</b> <a class="float-right">4 hours</a>
+                  </li>
+                </ul>
+
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div><!-- /.container-fluid -->
+        </div>
+        <div class="row mb-2">
+          <div class="col-12">
+            <h1 class="text-muted text-center">Similiar Services</h1>
+            <hr class="text-center"/>
+          </div><!-- /.col -->
+        </div>
+        <div class="row mb-2">
+          <div class="col-md-4">
+            <div class="ph-item shadow-lg rounded-3">
+              <div class="ph-col-12">
+                <div class="ph-picture"></div>
+                <div class="ph-row">
+                  <div class="ph-col-8 empty"></div>
+                  <div class="ph-col-4"></div>
+                  <div class="ph-col-12"></div>
+                </div>
+              </div>
+              <div class="ph-col-2">
+                <div class="ph-avatar"></div>
+              </div>
+              <div>
+                <div class="ph-row">
+                  <div class="ph-col-12"></div>
+                  <div class="ph-col-2"></div>
+                  <div class="ph-col-10 empty"></div>
+                  <div class="ph-col-8 big"></div>
+                  <div class="ph-col-4 big empty"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="ph-item shadow-lg rounded-3">
+              <div class="ph-col-12">
+                <div class="ph-picture"></div>
+                <div class="ph-row">
+                  <div class="ph-col-8 empty"></div>
+                  <div class="ph-col-4"></div>
+                  <div class="ph-col-12"></div>
+                </div>
+              </div>
+              <div class="ph-col-2">
+                <div class="ph-avatar"></div>
+              </div>
+              <div>
+                <div class="ph-row">
+                  <div class="ph-col-12"></div>
+                  <div class="ph-col-2"></div>
+                  <div class="ph-col-10 empty"></div>
+                  <div class="ph-col-8 big"></div>
+                  <div class="ph-col-4 big empty"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="ph-item shadow-lg rounded-3">
+              <div class="ph-col-12">
+                <div class="ph-picture"></div>
+                <div class="ph-row">
+                  <div class="ph-col-8 empty"></div>
+                  <div class="ph-col-4"></div>
+                  <div class="ph-col-12"></div>
+                </div>
+              </div>
+              <div class="ph-col-2">
+                <div class="ph-avatar"></div>
+              </div>
+              <div>
+                <div class="ph-row">
+                  <div class="ph-col-12"></div>
+                  <div class="ph-col-2"></div>
+                  <div class="ph-col-10 empty"></div>
+                  <div class="ph-col-8 big"></div>
+                  <div class="ph-col-4 big empty"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="ph-item shadow-lg rounded-3">
+              <div class="ph-col-12">
+                <div class="ph-picture"></div>
+                <div class="ph-row">
+                  <div class="ph-col-8 empty"></div>
+                  <div class="ph-col-4"></div>
+                  <div class="ph-col-12"></div>
+                </div>
+              </div>
+              <div class="ph-col-2">
+                <div class="ph-avatar"></div>
+              </div>
+              <div>
+                <div class="ph-row">
+                  <div class="ph-col-12"></div>
+                  <div class="ph-col-2"></div>
+                  <div class="ph-col-10 empty"></div>
+                  <div class="ph-col-8 big"></div>
+                  <div class="ph-col-4 big empty"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="ph-item shadow-lg rounded-3">
+              <div class="ph-col-12">
+                <div class="ph-picture"></div>
+                <div class="ph-row">
+                  <div class="ph-col-8 empty"></div>
+                  <div class="ph-col-4"></div>
+                  <div class="ph-col-12"></div>
+                </div>
+              </div>
+              <div class="ph-col-2">
+                <div class="ph-avatar"></div>
+              </div>
+              <div>
+                <div class="ph-row">
+                  <div class="ph-col-12"></div>
+                  <div class="ph-col-2"></div>
+                  <div class="ph-col-10 empty"></div>
+                  <div class="ph-col-8 big"></div>
+                  <div class="ph-col-4 big empty"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="ph-item shadow-lg rounded-3">
+              <div class="ph-col-12">
+                <div class="ph-picture"></div>
+                <div class="ph-row">
+                  <div class="ph-col-8 empty"></div>
+                  <div class="ph-col-4"></div>
+                  <div class="ph-col-12"></div>
+                </div>
+              </div>
+              <div class="ph-col-2">
+                <div class="ph-avatar"></div>
+              </div>
+              <div>
+                <div class="ph-row">
+                  <div class="ph-col-12"></div>
+                  <div class="ph-col-2"></div>
+                  <div class="ph-col-10 empty"></div>
+                  <div class="ph-col-8 big"></div>
+                  <div class="ph-col-4 big empty"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-12 text-center">
+            <a class="btn btn-primary w-25 shadow-lg">view More</a>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+    <form action="{% url 'chat_view' %}" method="post" class="contact">
+      {% csrf_token %}
+      <input type="text" name="about_id" value="{{seller.id}}" hidden/>
+      <input type="text" name="type" value="" hidden/>
+    </form>
+    <a href="#" class="highlight btn back-to-top rounded-circle shadow-lg contactBtn" role="button" aria-label="Contact the seller">
+      <span>
+        <img src="{{ seller.avatar }}" alt="{{seller.full_Name}}"
+              class="imgCustom rounded-circle border shadow-lg border-3" style="width: 90px; height: 90px;" />
+      </span>
+    </a>
+  </div>
+</div>
+{% endblock content %}
+{% block script %}
+
+<script src="{% static 'dist/js/customImageScroll.js' %}"></script>
+{% endblock script %}
+

@@ -1,0 +1,176 @@
+{% extends "nodeDashboard/nodeBase.html" %}
+{% load static %}
+{% block title %}
+  Product
+{% endblock title %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/placeholder-loading.min.css' %}" />
+<link rel="stylesheet" href="{% static 'css/custom.css' %}" />
+{% endblock style %}
+{% block product %}
+active
+{% endblock product %}
+{% block header %}
+  Product
+{% endblock header %}
+{% block breadcrumb %}
+  Product
+{% endblock breadcrumb %}
+{% block content %}
+<!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <!-- /.col-md-6 -->
+          <div class="col-12">
+            <div class="card card-primary card-outline card-outline-tabs">
+              <div class="card-header p-0 border-bottom-0">
+                <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link active" id="tabs-four-all-tab" data-toggle="pill" href="#tabs-four-all" role="tab" aria-controls="tabs-four-all" aria-selected="true">All</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="tabs-four-meta-tab" data-toggle="pill" href="#tabs-four-meta" role="tab" aria-controls="tabs-four-meta" aria-selected="false">Meta</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="tabs-four-project-tab" data-toggle="pill" href="#tabs-four-project" role="tab" aria-controls="tabs-four-project" aria-selected="false">Project</a>
+                  </li>
+                </ul>
+              </div>
+              <div class="card-body">
+                <div class="tab-content" id="custom-tabs-four-tabContent">
+                  <div class="tab-pane fade show active" id="tabs-four-all" role="tabpanel" aria-labelledby="tabs-four-all-tab">
+                    <div class="row" id="productAll">
+                      {% for i in meta %}
+                      <div class="col-md-6 col-lg-4">
+                        <div class="ph-item shadow-lg rounded-3">
+                          <div class="ph-col-12">
+                            <div class="ph-picture"></div>
+                            <div class="ph-row">
+                              <div class="ph-col-8 empty"></div>
+                              <div class="ph-col-4"></div>
+                              <div class="ph-col-12"></div>
+                            </div>
+                          </div>
+                          <div class="ph-col-2">
+                            <div class="ph-avatar"></div>
+                          </div>
+                          <div>
+                            <div class="ph-row">
+                              <div class="ph-col-12"></div>
+                              <div class="ph-col-2"></div>
+                              <div class="ph-col-10 empty"></div>
+                              <div class="ph-col-8 big"></div>
+                              <div class="ph-col-4 big empty"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      {% endfor %}
+                      {% for i in project %}
+                      <div class="col-md-6 col-lg-4">
+                        <div class="ph-item shadow-lg rounded-3">
+                          <div class="ph-col-12">
+                            <div class="ph-picture"></div>
+                            <div class="ph-row">
+                              <div class="ph-col-8 empty"></div>
+                              <div class="ph-col-4"></div>
+                              <div class="ph-col-12"></div>
+                            </div>
+                          </div>
+                          <div class="ph-col-2">
+                            <div class="ph-avatar"></div>
+                          </div>
+                          <div>
+                            <div class="ph-row">
+                              <div class="ph-col-12"></div>
+                              <div class="ph-col-2"></div>
+                              <div class="ph-col-10 empty"></div>
+                              <div class="ph-col-8 big"></div>
+                              <div class="ph-col-4 big empty"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="tabs-four-meta" role="tabpanel" aria-labelledby="tabs-four-meta-tab">
+                      <div class="row" id="productMeta">
+                      {% for i in meta %}
+                      <div class="col-md-6 col-lg-4">
+                        <div class="ph-item shadow-lg rounded-3">
+                          <div class="ph-col-12">
+                            <div class="ph-picture"></div>
+                            <div class="ph-row">
+                              <div class="ph-col-8 empty"></div>
+                              <div class="ph-col-4"></div>
+                              <div class="ph-col-12"></div>
+                            </div>
+                          </div>
+                          <div class="ph-col-2">
+                            <div class="ph-avatar"></div>
+                          </div>
+                          <div>
+                            <div class="ph-row">
+                              <div class="ph-col-12"></div>
+                              <div class="ph-col-2"></div>
+                              <div class="ph-col-10 empty"></div>
+                              <div class="ph-col-8 big"></div>
+                              <div class="ph-col-4 big empty"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="tabs-four-project" role="tabpanel" aria-labelledby="tabs-four-project-tab">
+                      <div class="row" id="productProject">
+                      {% for i in project %}
+                      <div class="col-md-6 col-lg-4">
+                        <div class="ph-item shadow-lg rounded-3">
+                          <div class="ph-col-12">
+                            <div class="ph-picture"></div>
+                            <div class="ph-row">
+                              <div class="ph-col-8 empty"></div>
+                              <div class="ph-col-4"></div>
+                              <div class="ph-col-12"></div>
+                            </div>
+                          </div>
+                          <div class="ph-col-2">
+                            <div class="ph-avatar"></div>
+                          </div>
+                          <div>
+                            <div class="ph-row">
+                              <div class="ph-col-12"></div>
+                              <div class="ph-col-2"></div>
+                              <div class="ph-col-10 empty"></div>
+                              <div class="ph-col-8 big"></div>
+                              <div class="ph-col-4 big empty"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /.card -->
+            </div>
+          </div>
+          <!-- /.col-md-6 -->
+        </div>
+      </div>
+      <!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+{% endblock content %}
+{% block script %}
+  <!-- OPTIONAL SCRIPTS -->
+  <script src="{% static 'dist/js/Chart.min.js' %}"></script>
+  <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+  <script src="{% static 'dist/js/product_fetch.js' %}"></script>
+  <script src="{% static 'dist/js/dashboard3.js' %}"></script>
+{% endblock script %}

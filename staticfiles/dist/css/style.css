@@ -1,0 +1,9 @@
+.dragSuccess{
+  border: 2px solid rgb(68, 166, 101)!important;
+}
+.dragHover{
+  border: 2px solid #1683ff!important;
+}
+.dragError{
+  border: 2px solid #ff4816!important;
+}

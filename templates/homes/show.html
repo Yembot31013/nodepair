@@ -1,0 +1,86 @@
+{% extends 'homes/homeBase.html' %}
+{% load static %}
+{% block title %}result for {{query}}{% endblock title %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'dist/css/all.min.css' %}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'dist/css/adminlte.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/custom.css' %}" />
+<style>
+  .bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+  }
+
+  #searchBar:focus {
+    width: 700px;
+  }
+
+  @media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+      font-size: 3.5rem;
+    }
+  }
+
+</style>
+{% endblock style %}
+{% block content %}
+  <input type="hidden" value="{{show}}" id="show">
+  {% if moreData %}
+  <div class="container mt-5 mb-5">
+    <div class="row" id="dataQuery">
+      {% for i in moreData %}
+      <div class="col-md-4">
+        <div class="ph-item shadow-lg rounded-3">
+          <div class="ph-col-12">
+            <div class="ph-picture"></div>
+            <div class="ph-row">
+              <div class="ph-col-8 empty"></div>
+              <div class="ph-col-4"></div>
+              <div class="ph-col-12"></div>
+            </div>
+          </div>
+          <div class="ph-col-2">
+            <div class="ph-avatar"></div>
+          </div>
+          <div>
+            <div class="ph-row">
+              <div class="ph-col-12"></div>
+              <div class="ph-col-2"></div>
+              <div class="ph-col-10 empty"></div>
+              <div class="ph-col-8 big"></div>
+              <div class="ph-col-4 big empty"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% else %}
+  <main class="container my-5">
+    <div class="bg-light p-5 rounded">
+      <h1>Sorry Content Not Found</h1>
+      <p class="lead">Hey! {{user}}, the content you are requesting for might not be Available for now or due to slow internet connection.</p>
+      <a class="btn btn-lg btn-primary" href="{% url 'home' %}" role="button">Go Back &raquo;</a>
+    </div>
+  </main>
+  {% endif %}
+
+    {% endblock content %}
+    {% block script %}
+    <script src="{% static 'dist/js/querys.js' %}"></script>
+    <script>
+      <img data-lazy="img/lazyfonz1.png" />
+
+      $('.lazy').slick({
+        lazyLoad: 'ondemand',
+        slidesToShow: 3,
+        slidesToScroll: 1
+      });
+    </script>
+    {% endblock script %}
+  

@@ -1,0 +1,449 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>NodePair | Home</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" />
+    <!-- Google Fonts Roboto -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" />
+    <!-- MDB -->
+    <link rel="stylesheet" href="{% static 'mdb/css/mdb.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'dist/css/bootstrap.min.css' %}" />
+    <style>
+      .overflow-x-hidden{
+        overflow-x: hidden;
+      }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+        <!--Main Navigation-->
+    <header>
+      <style>
+        /* Height for devices larger than 576px */
+        @media (min-width: 992px) {
+          #intro {
+            margin-top: -58.59px;
+          }
+        }
+
+        .navbar .nav-link {
+          color: #fff !important;
+        }
+        
+        .navbar-dark .navbar-toggler-icon, .navbar-light .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba(255, 255, 255, 0.55)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E")!important;
+        }
+      </style>
+
+      <!-- Navbar -->
+        <main>
+          <nav class="navbar navbar-dark bg-primary fixed-top">
+              <div class="container-fluid">
+                <a class="navbar-brand mx-lg-5" href="{% url 'home' %}">NodePair</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="offcanvas offcanvas-end text-bg-dark bg-primary" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+                  <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">NodePair</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                  </div>
+                  <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                      <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{% url 'meta' %}">Become a Node</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="#about">About Us</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="#offer">Offers</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="#category">Category</a>
+                      </li>
+                      <li class="nav-item dropdown pb-3">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          help
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-light text-primary">
+                          <li><a class="dropdown-item text-primary" href="#contact">Give Feedback</a></li>
+                          <li><a class="dropdown-item text-primary" href="#contact">support us</a></li>
+                          <li>
+                            <hr class="dropdown-divider">
+                          </li>
+                          <li><a class="dropdown-item text-primary" href="#contact">Complaint</a></li>
+                        </ul>
+                      </li>
+                    </ul>
+                    <form class="d-flex" role="search">
+                      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                      <button class="btn btn-success" type="submit">Search</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </nav>
+      </main>
+      <!-- Navbar -->
+
+      <!-- Background image -->
+      <div id="intro" class="bg-image vh-100 shadow-1-strong">
+        <video style="min-width: 100%; min-height: 100%;" playsinline autoplay muted loop>
+          <source class="h-100" src="https://mdbootstrap.com/img/video/Lines.mp4" type="video/mp4" />
+        </video>
+        <div class="mask"     style="
+        background: linear-gradient(
+          45deg,
+          rgba(29, 108, 236, 0.323),
+          #231dda7b 100%
+        );
+      ">
+          <div class="container d-flex align-items-center justify-content-center text-left h-100">
+            <div class="text-white">
+              <h1 class="mb-3 text-primary">Connect with other Nodes!</h1>
+              <h5 class="mb-4 pe-5 text-wrap" style="width: 48rem;">NodePair is a web3 based website that provides interaction between freelancers(Nodes) and buyers through smart contract, a secured connection and transaction without any third-party involvement even NodePair itself.</h5>
+              <a
+                class="btn btn-primary btn-lg m-2"
+                href="#about"
+                role="button"
+                >Learn More</a
+              >
+              <a
+                class="btn btn-outline-success btn-lg m-2"
+                href="{% url 'loginpage' %}"
+                role="button"
+                >Let's Get Started</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Background image -->
+    </header>
+    <!--Main Navigation-->
+    <!--Main layout-->
+    <main class="mt-5">
+      <div class="container-fluid p-0">
+        <!--Section: Content-->
+        <div class="container px-4 py-5" id="offer" id="custom-cards">
+          <h2 class="pb-2 border-bottom border-primary text-primary">What We Offer</h2>
+      
+          <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
+            <div class="col">
+              <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('https://mdbootstrap.com/img/new/standard/nature/184.jpg');">
+                <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                  <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Short title, long jacket</h2>
+                  <ul class="d-flex list-unstyled mt-auto">
+                    <li class="me-auto">
+                      <img src="https://mdbootstrap.com/img/new/standard/nature/184.jpg" alt="Bootstrap" width="32" height="32" class="rounded-circle border border-white">
+                    </li>
+                    <li class="d-flex align-items-center me-3">
+                      <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#geo-fill"/></svg>
+                      <small>Alimosho</small>
+                    </li>
+                    <li class="d-flex align-items-center">
+                      <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"/></svg>
+                      <small>3d</small>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+      
+            <div class="col">
+              <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('https://mdbootstrap.com/img/new/standard/nature/023.jpg');">
+                <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                  <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Much longer title that wraps to multiple lines</h2>
+                  <ul class="d-flex list-unstyled mt-auto">
+                    <li class="me-auto">
+                      <img src="https://mdbootstrap.com/img/new/standard/nature/023.jpg" alt="Bootstrap" width="32" height="32" class="rounded-circle border border-white">
+                    </li>
+                    <li class="d-flex align-items-center me-3">
+                      <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#geo-fill"/></svg>
+                      <small>Lagos</small>
+                    </li>
+                    <li class="d-flex align-items-center">
+                      <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"/></svg>
+                      <small>4d</small>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+      
+            <div class="col">
+              <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('https://mdbootstrap.com/img/new/standard/nature/111.jpg');">
+                <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
+                  <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Another longer title belongs here</h2>
+                  <ul class="d-flex list-unstyled mt-auto">
+                    <li class="me-auto">
+                      <img src="https://mdbootstrap.com/img/new/standard/nature/111.jpg" alt="Bootstrap" width="32" height="32" class="rounded-circle border border-white">
+                    </li>
+                    <li class="d-flex align-items-center me-3">
+                      <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#geo-fill"/></svg>
+                      <small>Nigeria</small>
+                    </li>
+                    <li class="d-flex align-items-center">
+                      <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"/></svg>
+                      <small>5d</small>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--Section: Content-->
+
+
+        <div class="container-fluid col-xxl-8 px-4 py-5 bg-primary text-white px-5" id="about">
+          <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+            <div class="col-10 col-sm-8 col-lg-6">
+              <img src="https://mdbootstrap.com/img/new/standard/nature/184.jpg" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+            </div>
+            <div class="col-lg-6">
+              <h1 class="display-5 fw-bold lh-1 mb-3  text-white">About us</h1>
+              <p class="lead">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nam totam magni amet quia rem aspernatur atque necessitatibus deleniti, sit explicabo?</p>
+              <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                <button type="button" class="btn btn-success btn-lg px-4 me-md-2">Learn More</button>
+                <a type="button" class="btn btn-outline-secondary btn-lg px-4" href="{% url 'loginpage' %}">Register Now</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--Section: Content-->
+        <section class="my-5 container" id="founder">
+          <div class="row">
+            <div class="col-md-6 gx-5 mb-4">
+              <div class="bg-image hover-overlay ripple shadow-2-strong" data-mdb-ripple-color="light">
+                <img src="https://mdbootstrap.com/img/new/slides/031.jpg" class="img-fluid" />
+                <a href="#!">
+                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                </a>
+              </div>
+            </div>
+
+            <div class="col-md-6 gx-5 mb-4">
+              <p><strong>Anjitech & Yembot <span class="text-success">.</span> <span class="text-primary">Co-founders</span></strong></p>
+              <blockquote class="blockquote">
+                <p class="text-muted">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod itaque voluptate
+                  nesciunt laborum incidunt. Officia, quam consectetur. Earum eligendi aliquam illum
+                  alias, unde optio accusantium soluta, iusto molestiae adipisci et?
+                </p>
+              </blockquote>
+            </div>
+          </div>
+        </section>
+        <!--Section: Content-->
+
+        <!--Section: Content-->
+        <div class="container-fluid bg-primary py-5 px-5" id="category" id="custom-cards">
+          <h2 class="pb-2 border-bottom text-light">Available Categories</h2>
+      
+          <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
+            <div class="col">
+              <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg hover-overlay ripple" data-mdb-ripple-color="light" style="background-image: url('https://mdbootstrap.com/img/new/standard/nature/184.jpg');">
+                <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                  <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Short title, long jacket</h2>
+                  <ul class="d-flex list-unstyled mt-auto">
+                    <li class="me-auto">
+                      <img src="https://mdbootstrap.com/img/new/standard/nature/184.jpg" alt="Bootstrap" width="32" height="32" class="rounded-circle border border-white">
+                    </li>
+                    <li class="d-flex align-items-center me-3">
+                      <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#geo-fill"/></svg>
+                      <small>Alimosho</small>
+                    </li>
+                    <li class="d-flex align-items-center">
+                      <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"/></svg>
+                      <small>3d</small>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+      
+            <div class="col">
+              <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg hover-overlay ripple" data-mdb-ripple-color="light" style="background-image: url('https://mdbootstrap.com/img/new/standard/nature/023.jpg');">
+                <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                  <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Much longer title that wraps to multiple lines</h2>
+                  <ul class="d-flex list-unstyled mt-auto">
+                    <li class="me-auto">
+                      <img src="https://mdbootstrap.com/img/new/standard/nature/023.jpg" alt="Bootstrap" width="32" height="32" class="rounded-circle border border-white">
+                    </li>
+                    <li class="d-flex align-items-center me-3">
+                      <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#geo-fill"/></svg>
+                      <small>Lagos</small>
+                    </li>
+                    <li class="d-flex align-items-center">
+                      <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"/></svg>
+                      <small>4d</small>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+      
+            <div class="col">
+              <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg hover-overlay ripple" data-mdb-ripple-color="light" style="background-image: url('https://mdbootstrap.com/img/new/standard/nature/111.jpg');">
+                <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
+                  <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Another longer title belongs here</h2>
+                  <ul class="d-flex list-unstyled mt-auto">
+                    <li class="me-auto">
+                      <img src="https://mdbootstrap.com/img/new/standard/nature/111.jpg" alt="Bootstrap" width="32" height="32" class="rounded-circle border border-white">
+                    </li>
+                    <li class="d-flex align-items-center me-3">
+                      <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#geo-fill"/></svg>
+                      <small>Nigeria</small>
+                    </li>
+                    <li class="d-flex align-items-center">
+                      <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"/></svg>
+                      <small>5d</small>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--Section: Content-->
+
+        <!--Section: Content-->
+        <section class="my-5" id="contact">
+          <h4 class="text-center pb-3 text-primary"><strong>Contact Us</strong></h4>
+          <div class="row d-flex justify-content-center">
+            <div class="col-md-6">
+              <form method="post" class="send">
+                {% csrf_token %}
+                <!-- 2 column grid layout with text inputs for the first and last names -->
+                <div class="row mb-4">
+                  <div class="col">
+                    <div class="form-outline">
+                      <input type="text" id="name" id="form3Example1" class="form-control"/>
+                      <label class="form-label" for="form3Example1">Name</label>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-outline">
+                      <input type="text" id="subject" id="form3Example2" class="form-control"/>
+                      <label class="form-label" for="form3Example2">Subject</label>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Email input -->
+                <div class="form-outline mb-4">
+                  <input type="email" id="email" id="form3Example3" class="form-control"/>
+                  <label class="form-label" for="form3Example3">Email address</label>
+                </div>
+
+                <!-- Password input -->
+                <div class="form-outline mb-4">
+                  <textarea id="message" id="form3Example4" class="form-control"></textarea>
+                  <label class="form-label" for="form3Example4">Message</label>
+                </div>
+
+                <!-- Checkbox -->
+                <div class="form-check d-flex justify-content-center mb-4">
+                  <input
+                    class="form-check-input me-2"
+                    type="checkbox"
+                    value=""
+                    id="subcribe"
+                    id="form2Example3"
+                    checked
+                  />
+                  <label class="form-check-label" for="form2Example3">
+                    Subscribe to our newsletter
+                  </label>
+                </div>
+
+                <!-- Submit button -->
+                <button type="submit" class="btn btn-primary btn-block mb-4">
+                  Submit Now
+                </button>
+              </form>
+            </div>
+          </div>
+        </section>
+        <!--Section: Content-->
+      </div>
+    </main>
+    <!--Main layout-->
+
+    <!--Footer-->
+    <footer class="bg-light text-lg-start">
+      <div class="text-center py-4 align-items-center">
+        <p class="text-primary">Follow NodePair social media</p>
+        <a
+          href=""
+          class="btn btn-primary m-1"
+          role="button"
+          rel="nofollow"
+          target="_blank"
+        >
+          <i class="fab fa-youtube"></i>
+        </a>
+        <a
+          href=""
+          class="btn btn-primary m-1"
+          role="button"
+          rel="nofollow"
+          target="_blank"
+        >
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a
+          href=""
+          class="btn btn-primary m-1"
+          role="button"
+          rel="nofollow"
+          target="_blank"
+        >
+          <i class="fab fa-twitter"></i>
+        </a>
+        <a
+          href=""
+          class="btn btn-primary m-1"
+          role="button"
+          rel="nofollow"
+          target="_blank"
+        >
+          <i class="fab fa-github"></i>
+        </a>
+      </div>
+
+      <!-- Copyright -->
+      <div class="text-center p-3 text-primary" style="background-color: rgba(0, 0, 0, 0.2);">
+        © 2022 Copyright:
+        <a class="text-success" href="/">NodePair.com</a>
+      </div>
+      <!-- Copyright -->
+    </footer>
+    <!--Footer-->
+    <!-- MDB -->
+    <script type="text/javascript" src="{% static 'dist/js/bootstrap.bundle.js' %}"></script>
+    <script type="text/javascript" src="{% static 'mdb/js/mdb.min.js' %}"></script>
+    <!-- Custom scripts -->
+    <script src="{% static 'dist/js/jquery.js' %}"></script>
+    <script src="{% static 'dist/js/sweetalert.js' %}"></script>
+    <script src="{% static 'dist/js/alertify.min.js' %}"></script>
+    <script src="{% static 'dist/js/custom.js' %}"></script>
+    <script src="{% static 'dist/js/alertify.min.js' %}"></script>
+    <script>
+      alertify.set("notifier", "position", "top-right");
+      {% for msg in messages %}
+      alertify.success("{{msg}}");
+      {% endfor %}
+    </script>
+</body>
+</html>

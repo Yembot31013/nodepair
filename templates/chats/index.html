@@ -1,0 +1,558 @@
+{% load static %}
+{% load humanize %}
+{% load notifications_tags %}
+{% notifications_unread as unread_count %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+		<meta charset="utf-8">
+		<title>NodePair |  {{user}}</title>
+		<meta name="description" content="#">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<!-- Bootstrap core CSS -->
+		<link href="{% static 'dist/css/lib/bootstrap.min.css' %}" type="text/css" rel="stylesheet">
+		<!-- Swipe core CSS -->
+		<link href="{% static 'dist/css/swipe.min.css' %}" type="text/css" rel="stylesheet">
+		<!-- Favicon -->
+		<link href="{% static 'dist/img/favicon.png' %}" type="image/png" rel="icon">
+	</head>
+	<body>
+		<main>
+			<input type="hidden" value="{{user.id}}" id="user_id">
+			<div class="layout">
+				<!-- Start of Navigation -->
+				<div class="navigation">
+					<div class="container">
+						<div class="inside">
+							<div class="nav nav-tab menu">
+								<button class="btn"><img class="avatar-xl" src="{% if user.seller_profile.avatar %}{{ user.seller_profile.avatar }}{% else %}{% static 'dist/img/avatars/avatar-male-1.jpg' %}{% endif %}" alt="avatar"></button>
+								<a href="#members" data-toggle="tab"><i class="material-icons">account_circle</i></a>
+								<a href="#discussions" data-toggle="tab" class="active"><i class="material-icons active">chat_bubble_outline</i></a>
+								<a href="#notifications" data-toggle="tab" class="f-grow1"><i class="material-icons">notifications_none</i></a>
+								<a class="btn power" href="/"><i class="material-icons" title="Go Back Home">home</i></a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- End of Navigation -->
+				<!-- Start of Sidebar -->
+				<div class="sidebar" id="sidebar">
+					<div class="container">
+						<div class="col-md-12">
+							<div class="tab-content">
+								<!-- Start of Contacts -->
+								<div class="tab-pane fade" id="members">
+									<div class="search">
+										<form class="form-inline position-relative">
+											<input type="search" class="form-control" id="people" placeholder="Search for people...">
+											<button type="button" class="btn btn-link loop"><i class="material-icons">search</i></button>
+										</form>
+										<button class="btn create" data-toggle="modal" onclick="refreshs();"><i class="material-icons">refresh</i></button>
+									</div>
+									<div class="list-group sort">
+										<button class="btn filterMembersBtn active show" data-toggle="list" data-filter="all">All</button>
+										<button class="btn filterMembersBtn" data-toggle="list" data-filter="online">Online</button>
+										<button class="btn filterMembersBtn" data-toggle="list" data-filter="offline">Offline</button>
+									</div>						
+									<div class="contacts">
+										<h1>Contacts</h1>
+										<div class="list-group" id="contacts" role="tablist">
+											{% for i in thread %}
+											<a href="#list-{{i.id}}" class="filterMembers all {% if i.buyer == user %}{% if i.seller.profile_status.online %}online{% else %}offline{% endif %}{% else %}{% if i.buyer.profile_status.online %}online{% else %}offline{% endif %}{% endif %} contact" data-toggle="list" id="{% if i.buyer == user %}contact_{{i.seller.id}}{% else %}contact_{{i.buyer.id}}{% endif %}">
+												<img class="avatar-md" src="{% static 'dist/img/avatars/avatar-female-1.jpg' %}" data-toggle="tooltip" data-placement="top" title="{% if i.buyer == user %}{{i.seller}}{% else %}{{i.buyer}}{% endif %}" alt="avatar">
+												<div class="status">
+													{% if i.buyer == user %}
+													{% if i.seller.profile_status.online %}
+													<i class="material-icons online" id="contacts_{{i.seller.id}}">fiber_manual_record</i>
+													{% else %}
+													<i class="material-icons offline" id="contacts_{{i.seller.id}}">fiber_manual_record</i>
+													{% endif %}
+													{% else %}
+													{% if i.buyer.profile_status.online %}
+													<i class="material-icons online" id="contacts_{{i.buyer.id}}">fiber_manual_record</i>
+													{% else %}
+													<i class="material-icons offline" id="contacts_{{i.buyer.id}}">fiber_manual_record</i>
+													{% endif %}
+													{% endif %}
+												</div>
+												<div class="data">
+													<h5>{% if i.buyer == user %}{{i.seller}}{% else %}{{i.buyer}}{% endif %}{% if i.buyer == i.seller %} (You){% endif %}</h5>
+												</div>
+												<div class="person-add">
+													<i class="material-icons">person</i>
+												</div>
+											</a>
+											{% endfor %}
+										</div>
+									</div>
+								</div>
+								<!-- End of Contacts -->
+								<!-- Start of Discussions -->
+								<div id="discussions" class="tab-pane fade active show">
+									<div class="search">
+										<form class="form-inline position-relative">
+											<input type="search" class="form-control" id="conversations" placeholder="Search for conversations...">
+											<button type="button" class="btn btn-link loop"><i class="material-icons">search</i></button>
+										</form>
+										<button class="btn create" data-toggle="modal" onclick="refreshs();"><i class="material-icons">refresh</i></button>
+									</div>
+									<div class="list-group sort">
+										<button class="btn filterDiscussionsBtn active show" data-toggle="list" data-filter="all">All</button>
+										<button class="btn filterDiscussionsBtn" data-toggle="list" data-filter="read">Read</button>
+										<button class="btn filterDiscussionsBtn" data-toggle="list" data-filter="unread">Unread</button>
+									</div>						
+									<div class="discussions">
+										<h1>Discussions</h1>
+										<div class="list-group" id="chats" role="tablist">
+										{% for i in thread %}
+										<a href="#list-{{i.id}}" class="filterDiscussions discuss all {% if i.buyer == user %}{% if i.total_seller_unread > 0 %}unread{% else %}read{% endif %}{% else %}{% if i.total_buyer_unread > 0 %}unread{% else %}read{% endif %}{% endif %}{% if Thread_obj.id == i.id %} active show {% endif %} single" id="container-{{i.id}}" data-toggle="list" role="tab">
+												<img class="avatar-md" src="{% static 'dist/img/avatars/avatar-female-1.jpg' %}" data-toggle="tooltip" data-placement="top" title="{% if i.buyer == user %}{{i.seller}}{% else %}{{i.buyer}}{% endif %}" alt="avatar">
+												<div class="status">
+													{% if i.buyer == user %}
+														{% if i.seller.profile_status.online %}
+														<i class="material-icons online" id="status_{{i.seller.id}}">fiber_manual_record</i>
+														{% else %}
+														<i class="material-icons offline" id="status_{{i.seller.id}}">fiber_manual_record</i>
+														{% endif %}
+													{% else %}
+														{% if i.buyer.profile_status.online %}
+														<i class="material-icons online" id="status_{{i.buyer.id}}">fiber_manual_record</i>
+														{% else %}
+														<i class="material-icons offline" id="status_{{i.buyer.id}}">fiber_manual_record</i>
+														{% endif %}
+													{% endif %}
+												</div>
+												<div id="unread_{{i.id}}">
+													{% if i.buyer == user %}
+														{% if i.total_seller_unread > 0 %}
+														<div class="new bg-yellow" id="new_{{i.id}}">
+															<span id="count_{{i.id}}">
+															{{i.total_seller_unread}}
+															</span>
+														</div>
+														{% endif %}
+													{% else %}
+														{% if i.total_buyer_unread > 0 %}
+															<div class="new bg-yellow" id="new_{{i.id}}">
+																<span id="count_{{i.id}}">
+																{{i.total_buyer_unread}}
+																</span>
+															</div>
+															{% endif %}
+													{% endif %}
+												</div>
+												<div class="data">
+													<h5>{% if i.buyer == user %}{{i.seller}}{% else %}{{i.buyer}}{% endif %}{% if i.buyer == i.seller %} (You){% endif %}</h5>
+													<span id="last-time-{{i.id}}">{{i.chatMessage_thread.last.timestamp.time}}</span>
+													<p id="last-{{i.id}}">{{i.chatMessage_thread.last.message | truncatechars:25}}</p>
+												</div>
+										</a>
+										{% endfor %}					
+										</div>
+									</div>
+								</div>
+								<!-- End of Discussions -->
+								<!-- Start of Notifications -->
+								<div id="notifications" class="tab-pane fade">
+									<div class="search">
+										<form class="form-inline position-relative">
+											<input type="search" class="form-control" id="notice" placeholder="Filter notifications...">
+											<button type="button" class="btn btn-link loop"><i class="material-icons filter-list">filter_list</i></button>
+										</form>
+									</div>
+									<div class="list-group sort">
+										<button class="btn filterNotificationsBtn active show" data-toggle="list" data-filter="all">All</button>
+										<button class="btn filterNotificationsBtn" data-toggle="list" data-filter="latest">Latest</button>
+										<button class="btn filterNotificationsBtn" data-toggle="list" data-filter="oldest">Oldest</button>
+									</div>						
+									<div class="notifications">
+										<h1>Notifications</h1>
+										<div class="list-group" id="alerts" role="tablist">
+											{% for n in user.notifications.unread %}
+											<a href="#" class="filterNotifications all latest notification" data-toggle="list">
+												<img class="avatar-md" src="{% static 'dist/img/avatars/avatar-female-1.jpg' %}" data-toggle="tooltip"
+													data-placement="top" title="{{n.actor}}" alt="avatar">
+												<div class="status">
+													<i class="material-icons online">fiber_manual_record</i>
+												</div>
+												<div class="data">
+													<p>{{ n.verb }}</p>
+													<span>{{ n.timestamp }}</span>
+												</div>
+											</a>
+											{% endfor %}
+											<a href="#" class="filterNotifications all latest notification" data-toggle="list">
+												<img class="avatar-md" src="{% static 'dist/img/avatars/avatar-female-1.jpg' %}" data-toggle="tooltip" data-placement="top" title="Janette" alt="avatar">
+												<div class="status">
+													<i class="material-icons online">fiber_manual_record</i>
+												</div>
+												<div class="data">
+													<p>Janette has accepted your friend request on Swipe.</p>
+													<span>Oct 17, 2018</span>
+												</div>
+											</a>
+											<a href="#" class="filterNotifications all latest notification" data-toggle="list">
+												<img class="avatar-md" src="{% static 'dist/img/avatars/avatar-male-1.jpg' %}" data-toggle="tooltip" data-placement="top" title="Michael" alt="avatar">
+												<div class="status">
+													<i class="material-icons online">fiber_manual_record</i>
+												</div>
+												<div class="data">
+													<p>Michael, you have a new friend suggestion today.</p>
+													<span>Jun 21, 2018</span>
+												</div>
+											</a>
+											<a href="#" class="filterNotifications all latest notification" data-toggle="list">
+												<img class="avatar-md" src="{% static 'dist/img/avatars/avatar-male-2.jpg' %}" data-toggle="tooltip" data-placement="top" title="Mariette" alt="avatar">
+												<div class="status">
+													<i class="material-icons online">fiber_manual_record</i>
+												</div>
+												<div class="data">
+													<p>Mariette have just sent you a new message.</p>
+													<span>Feb 15, 2018</span>
+												</div>
+											</a>
+											<a href="#" class="filterNotifications all latest notification" data-toggle="list">
+												<img class="avatar-md" src="{% static 'dist/img/avatars/avatar-female-6.jpg' %}" data-toggle="tooltip" data-placement="top" title="Louis" alt="avatar">
+												<div class="status">
+													<i class="material-icons online">fiber_manual_record</i>
+												</div>
+												<div class="data">
+													<p>Louis has a birthday today. Wish her all the best.</p>
+													<span>Mar 23, 2018</span>
+												</div>
+											</a>
+											<a href="#" class="filterNotifications all latest notification" data-toggle="list">
+												<img class="avatar-md" src="{% static 'dist/img/avatars/avatar-female-3.jpg' %}" data-toggle="tooltip" data-placement="top" title="Janette" alt="avatar">
+												<div class="status">
+													<i class="material-icons online">fiber_manual_record</i>
+												</div>
+												<div class="data">
+													<p>Harmony has accepted your friend request on Swipe.</p>
+													<span>Jan 5, 2018</span>
+												</div>
+											</a>
+											<a href="#" class="filterNotifications all oldest notification" data-toggle="list">
+												<img class="avatar-md" src="{% static 'dist/img/avatars/avatar-female-5.jpg' %}" data-toggle="tooltip" data-placement="top" title="Janette" alt="avatar">
+												<div class="status">
+													<i class="material-icons offline">fiber_manual_record</i>
+												</div>
+												<div class="data">
+													<p>Keith have just sent you a new message.</p>
+													<span>Dec 22, 2017</span>
+												</div>
+											</a>
+											<a href="#" class="filterNotifications all oldest notification" data-toggle="list">
+												<img class="avatar-md" src="{% static 'dist/img/avatars/avatar-female-2.jpg' %}" data-toggle="tooltip" data-placement="top" title="Janette" alt="avatar">
+												<div class="status">
+													<i class="material-icons offline">fiber_manual_record</i>
+												</div>
+												<div class="data">
+													<p>Michael, you have a new friend suggestion today.</p>
+													<span>Nov 29, 2017</span>
+												</div>
+											</a>
+											<a href="#" class="filterNotifications all oldest notification" data-toggle="list">
+												<img class="avatar-md" src="{% static 'dist/img/avatars/avatar-male-3.jpg' %}" data-toggle="tooltip" data-placement="top" title="Janette" alt="avatar">
+												<div class="status">
+													<i class="material-icons offline">fiber_manual_record</i>
+												</div>
+												<div class="data">
+													<p>Ryan have just sent you a new message.</p>
+													<span>Sep 31, 2017</span>
+												</div>
+											</a>
+											<a href="#" class="filterNotifications all oldest notification" data-toggle="list">
+												<img class="avatar-md" src="{% static 'dist/img/avatars/avatar-male-4.jpg' %}" data-toggle="tooltip" data-placement="top" title="Janette" alt="avatar">
+												<div class="status">
+													<i class="material-icons offline">fiber_manual_record</i>
+												</div>
+												<div class="data">
+													<p>Mildred has a birthday today. Wish him all the best.</p>
+													<span>Jul 19, 2017</span>
+												</div>
+											</a>
+										</div>
+									</div>
+								</div>
+								<!-- End of Notifications -->								
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- End of Sidebar -->
+				<div class="main">
+					<div class="tab-content" id="nav-tabContent">
+						<!-- Start of Babble -->
+						{% if thread %}
+							{% if Thread_obj %}
+								<div class="babble tab-pane fade active show" id="list-{{Thread_obj.id}}" role="tabpanel" aria-labelledby="list-chat-list">
+									<!-- Start of Chat -->
+									<div class="chat" id="chat1">
+										<div class="top">
+											<div class="container">
+												<div class="col-md-12">
+													<div class="inside">
+														<a href="#"><img class="avatar-md" src="{% if i.seller.seller_profile.avatar %}{{i.seller.seller_profile.avatar}}{% else %}{% static 'dist/img/avatars/avatar-female-5.jpg' %}{% endif %}"
+																data-toggle="tooltip" data-placement="top"
+																title="{% if Thread_obj.buyer == user %}{{Thread_obj.seller}}{% else %}{{Thread_obj.buyer}}{% endif %}" alt="avatar"></a>
+														<div class="status">
+															{% if Thread_obj.buyer == user %}
+															{% if Thread_obj.seller.profile_status.online %}
+															<i class="material-icons online" id="chat_thread_{{Thread_obj.seller.id}}">fiber_manual_record</i>
+															{% else %}
+															<i class="material-icons offline" id="chat_thread_{{Thread_obj.seller.id}}">fiber_manual_record</i>
+															{% endif %}
+															{% else %}
+															{% if Thread_obj.buyer.profile_status.online %}
+															<i class="material-icons online" id="chat_thread_{{Thread_obj.buyer.id}}">fiber_manual_record</i>
+															{% else %}
+															<i class="material-icons offline" id="chat_thread_{{Thread_obj.buyer.id}}">fiber_manual_record</i>
+															{% endif %}
+															{% endif %}
+														</div>
+														<div class="data">
+															<h5><a href="#">{% if Thread_obj.buyer == user %}{{Thread_obj.seller}}{% else %}{{Thread_obj.buyer}}{% endif %}</a>{% if i.buyer == i.seller %} (You){% endif %}</h5>
+															<span id="{% if i.buyer == user %}chat_status_{{Thread_obj.buyer.id}}{% else %}chat_status_{{Thread_obj.seller.id}}{% endif %}">{% if Thread_obj.buyer == user %}{% if Thread_obj.seller.profile_status.online %}Active now{% else %}offline{% endif %}{% else %}{% if Thread_obj.buyer.profile_status.online %}Active now{% else %}offline{% endif %}{% endif %}</span>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="content" id="content_{{Thread_obj.id}}">
+											<div class="container">
+												<div class="col-md-12 msg-card-body" id="msg-card-body-{{Thread_obj.id}}">
+													{% for j in Thread_obj.chatMessage_thread.all %}
+													{% ifchanged j.timestamp.date %}
+													<div class="date">
+														<hr>
+														<span class="text-nowrap">{{j.timestamp|naturalday}}</span>
+														<hr>
+													</div>
+													{% endifchanged %}
+													{% if j.user.id == user.id %}
+													<div class="message me">
+														<div class="text-main">
+															<div class="text-group me">
+																<div class="text me">
+																	<p>{{j.message}}</p>
+																</div>
+															</div>
+															<span>{{j.timestamp|naturaltime}}</span>
+														</div>
+													</div>
+													{% else %}
+													<div class="message">
+														<img class="avatar-md" src="{% static 'dist/img/avatars/avatar-female-5.jpg' %}" data-toggle="tooltip"
+															data-placement="top" title="{% if Thread_obj.buyer == user %}{{Thread_obj.seller}}{% else %}{{Thread_obj.buyer}}{% endif %}" alt="avatar">
+														<div class="text-main">
+															<div class="text-group">
+																<div class="text">
+																	<p>{{j.message}}</p>
+																</div>
+															</div>
+															<span>{{j.timestamp|naturaltime}}</span>
+														</div>
+													</div>
+													{% endif %}
+								
+													{% endfor %}
+												</div>
+											</div>
+										</div>
+										<div class="container">
+											<div class="col-md-12">
+												<div class="bottom">
+													<form class="position-relative w-100 send-msg-form" id="form-{{Thread_obj.id}}" form_id="{{Thread_obj.id}}"
+														other_user="{% if Thread_obj.buyer == user %}{{Thread_obj.seller.id}}{% else %}{{Thread_obj.buyer.id}}{% endif %}">
+														<textarea class="form-control" placeholder="Start typing for reply..." rows="1"
+															id="chat-input-{{Thread_obj.id}}"></textarea>
+														<button class="btn emoticons"><i class="material-icons">insert_emoticon</i></button>
+														<button type="submit" class="btn send"><i class="material-icons">send</i></button>
+													</form>
+													<label>
+														<input type="file">
+														<span class="btn attach d-sm-block d-none"><i class="material-icons">attach_file</i></span>
+													</label>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!-- End of Chat -->
+								</div>
+							{% else %}
+								<div class="babble tab-pane fade active show" id="list-empty" role="tabpanel" aria-labelledby="list-empty-list">
+									<!-- Start of Chat -->
+									<div class="chat" id="chat2">
+										<div class="top">
+											<div class="container">
+												<div class="col-md-12">
+													<div class="inside">
+														<a href="#"><img class="avatar-md" src="{% if user.seller_profile.avatar %}{{user.seller_profile.avatar}}{% else %}{% static 'dist/img/avatars/avatar-female-5.jpg' %}{% endif %}"
+																data-toggle="tooltip" data-placement="top" title="{{user}}" alt="avatar"></a>
+														<div class="data">
+															<h5><a href="#">{{user}}</a></h5>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="content empty">
+											<div class="container">
+												<div class="col-md-12">
+													<div class="no-messages">
+														<i class="material-icons md-48">forum</i>
+														<p>You can now send and receive messages between nodes and buyers customers. Note this is not a social media page, Using it for unauthorize activiy will lead to penality.</p>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							{% endif %}
+						{% for i in thread %}
+							{% if not Thread_obj.id == i %}
+							<div class="babble tab-pane fade" id="list-{{i.id}}" role="tabpanel" aria-labelledby="list-chat-list">
+								<!-- Start of Chat -->
+								<div class="chat" id="chat1">
+									<div class="top">
+										<div class="container">
+											<div class="col-md-12">
+												<div class="inside">
+													<a href="#"><img class="avatar-md" src="{% if i.buyer == user %}{{i.seller.seller_profile.avatar}}{% else %}{% static 'dist/img/avatars/avatar-female-5.jpg' %}{% endif %}" data-toggle="tooltip" data-placement="top" title="{% if i.buyer == user %}{{i.seller}}{% else %}{{i.buyer}}{% endif %}" alt="avatar"></a>
+													<div class="status">
+													{% if i.buyer == user %}
+													{% if i.seller.profile_status.online %}
+													<i class="material-icons online" id="chat_thread_{{i.seller.id}}">fiber_manual_record</i>
+													{% else %}
+													<i class="material-icons offline" id="chat_thread_{{i.seller.id}}">fiber_manual_record</i>
+													{% endif %}
+													{% else %}
+													{% if i.buyer.profile_status.online %}
+													<i class="material-icons online" id="chat_thread_{{i.buyer.id}}">fiber_manual_record</i>
+													{% else %}
+													<i class="material-icons offline" id="chat_thread_{{i.buyer.id}}">fiber_manual_record</i>
+													{% endif %}
+													{% endif %}
+													</div>
+													<div class="data">
+														<h5><a href="#">{% if i.buyer == user %}{{i.seller}}{% else %}{{i.buyer}}{% endif %}</a>{% if i.buyer == i.seller %} (You){% endif %}</h5>
+														<span id="{% if i.buyer == user %}chat_status_{{i.seller.id}}{% else %}chat_status_{{i.buyer.id}}{% endif %}">{% if i.buyer == user %}{% if i.seller.profile_status.online %}Active now{% else %}offline{% endif %}{% else %}{% if i.buyer.profile_status.online %}Active now{% else %}offline{% endif %}{% endif %}</span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="content" id="content_{{i.id}}">
+										<div class="container">
+											<div class="col-md-12 msg-card-body" id="msg-card-body-{{i.id}}">
+												{% for j in i.chatMessage_thread.all %}
+												{% ifchanged j.timestamp.date %}
+												<div class="date">
+													<hr>
+													<span class="text-nowrap">{{j.timestamp|naturalday}}</span>
+													<hr>
+												</div>
+												{% endifchanged %}
+												{% if j.user.id == user.id %}
+												<div class="message me">
+													<div class="text-main">
+														<div class="text-group me">
+															<div class="text me">
+																<p>{{j.message}}</p>
+															</div>
+														</div>
+														<span>{{j.timestamp|naturaltime}}</span>
+													</div>
+												</div>
+												{% else %}
+												<div class="message">
+													<img class="avatar-md" src="{% static 'dist/img/avatars/avatar-female-5.jpg' %}" data-toggle="tooltip"
+														data-placement="top" title="Keith" alt="avatar">
+													<div class="text-main">
+														<div class="text-group">
+															<div class="text">
+																<p>{{j.message}}</p>
+															</div>
+														</div>
+														<span>{{j.timestamp|naturaltime}}</span>
+													</div>
+												</div>
+												{% endif %}
+												
+												{% endfor %}
+											</div>
+										</div>
+									</div>
+									<div class="container">
+										<div class="col-md-12">
+											<div class="bottom">
+												<form class="position-relative w-100 send-msg-form" id="form-{{i.id}}" form_id="{{i.id}}" other_user="{% if i.buyer == user %}{{i.seller.id}}{% else %}{{i.buyer.id}}{% endif %}">
+													<textarea class="form-control" placeholder="Start typing for reply..." rows="1" id="chat-input-{{i.id}}"></textarea>
+													<button class="btn emoticons"><i class="material-icons">insert_emoticon</i></button>
+													<button type="submit" class="btn send"><i class="material-icons">send</i></button>
+												</form>
+												<label>
+													<input type="file">
+													<span class="btn attach d-sm-block d-none"><i class="material-icons">attach_file</i></span>
+												</label> 
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- End of Chat -->
+							</div>
+							{% endif %}
+						{% endfor %}
+						{% else %}
+						<div class="babble tab-pane fade active show" id="list-empty" role="tabpanel" aria-labelledby="list-empty-list">
+							<!-- Start of Chat -->
+							<div class="chat" id="chat2">
+								<div class="top">
+									<div class="container">
+										<div class="col-md-12">
+											<div class="inside">
+												<a href="#"><img class="avatar-md" src="{% if user.seller_profile.avatar %}{{user.seller_profile.avatar}}{% else %}{% static 'dist/img/avatars/avatar-female-5.jpg' %}{% endif %}" data-toggle="tooltip"
+														data-placement="top" title="{{user}}" alt="avatar"></a>
+												<div class="data">
+													<h5><a href="#">{{user}}</a></h5>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="content empty">
+									<div class="container">
+										<div class="col-md-12">
+											<div class="no-messages">
+												<i class="material-icons md-48">forum</i>
+												{% if user.seller_profile %}
+												<p>Seems You don't have any Customer Yet. Switch to buyer and contact Top sellers for business advice.</p>
+												{% else %}
+												<p>Seems You don't have any message Yet. You can reach out to other nodes out there for your next project discussion.</p>
+												{% endif %}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						{% endif %}
+						<!-- End of Babble -->
+					</div>
+				</div>
+			</div> <!-- Layout -->
+		</main>
+		<!-- Bootstrap/Swipe core JavaScript
+		================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<script src="{% static 'dist/js/jquery.js' %}"></script>
+
+		<script src="{% static 'dist/js/vendor/popper.min.js' %}"></script>
+		<script src="{% static 'dist/js/swipe.min.js' %}"></script>
+		<script src="{% static 'dist/js/bootstrap.min.js' %}"></script>
+		<script src="{% static 'dist/reconnecting-websocket.js' %}"></script>
+		<script src="{% static 'dist/chat.js' %}"></script>
+	</body>
+</html>

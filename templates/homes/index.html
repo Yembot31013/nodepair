@@ -1,0 +1,224 @@
+{% extends 'homes/homeBase.html' %}
+{% load static %}
+{% block title %}Home{% endblock title %}
+{% block style %}
+ <link rel="stylesheet" href="{% static 'dist/css/all.min.css' %}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'dist/css/adminlte.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/custom.css' %}" />
+{% endblock style %}
+{% block content %}
+    <!-- Introduction -->
+    <div class="flash">
+
+    </div>
+    <div class="container">
+      <div class="row mt-3 p-3 g-4">
+        <div class="col-md-3 m-0 w-25 mt-0 mb-0 d-none d-lg-block">
+          <div class="card h-100 shadow-lg rounded-3">
+            <div class="card-body">
+              <h5 class="card-title">Hi {{user}},</h5>
+              <p class="card-text text-wrap">Link up with Sellers for your project Idea</p>
+              <a href="#" class="btn btn-primary">Post Request</a>
+            </div> 
+          </div>
+        </div>
+        <div class="col-lg-9">
+          <div class="card m-0 p-auto w-100 h-100 shadow-lg rounded-3"> 
+            <div class="row gx-3 m-0 p-0 h-100">
+              <div class="col-md-4"><div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
+              <div class="carousel-inner">
+                <div class=" carousel-item active">
+                  <img src="" class="d-block" width="200" height="150" alt="...">
+                </div>
+                <div class=" carousel-item">
+                  <img src="" class="d-block" width="200" height="150" alt="...">
+                </div>
+                <div class="carousel-item">
+                  <img src="" class="d-block" width="200" height="150" alt="...">
+                </div>
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+              </div>
+            </div> 
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">Nodes,</h5>
+                <p class="card-text">Ping your Request and get a Node that will turn your project idea into Reality.</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+              </div>
+            </div>
+              </div>
+            </div>
+        </div>    
+      </div>
+    </div>
+    
+
+    <!-- Adventure begins -->
+    {% if meta_rec_queryset %}
+    <div class="container mt-5 mb-5">
+      <div class="d-flex justify-content-between">
+        <h3 class="text-muted text-nowrap fs-3">Recommended Meta</h3>
+        <a href="{% url 'showMore' 'rec_meta' %}" class="text-primary pb-0"><h4 class="text-nowrap fs-4">See More ></h4></a>
+      </div>
+      <div class="row" id="rec_meta">
+        {% for i in meta_rec_queryset %}
+        <div class="col-md-4">
+          <div class="ph-item shadow-lg rounded-3">
+            <div class="ph-col-12">
+              <div class="ph-picture"></div>
+              <div class="ph-row">
+                <div class="ph-col-8 empty"></div>
+                <div class="ph-col-4"></div>
+                <div class="ph-col-12"></div>
+              </div>
+            </div>
+            <div class="ph-col-2">
+              <div class="ph-avatar"></div>
+            </div>
+            <div>
+              <div class="ph-row">
+                <div class="ph-col-12"></div>
+                <div class="ph-col-2"></div>
+                <div class="ph-col-10 empty"></div>
+                <div class="ph-col-8 big"></div>
+                <div class="ph-col-4 big empty"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+  
+  {% if project_rec_queryset %}
+  <div class="container mt-5 mb-5">
+    <div class="d-flex justify-content-between">
+      <h3 class="text-muted text-nowrap fs-3">Recommended Project</h3>
+      <a href="{% url 'showMore' 'rec_project' %}" class="text-primary pb-0">
+        <h4 class="text-nowrap fs-4">See More ></h4>
+      </a>
+    </div>
+    <div class="row" id="rec_project">
+      {% for i in project_rec_queryset %}
+      <div class="col-md-4">
+        <div class="ph-item shadow-lg rounded-3">
+          <div class="ph-col-12">
+            <div class="ph-picture"></div>
+            <div class="ph-row">
+              <div class="ph-col-8 empty"></div>
+              <div class="ph-col-4"></div>
+              <div class="ph-col-12"></div>
+            </div>
+          </div>
+          <div class="ph-col-2">
+            <div class="ph-avatar"></div>
+          </div>
+          <div>
+            <div class="ph-row">
+              <div class="ph-col-12"></div>
+              <div class="ph-col-2"></div>
+              <div class="ph-col-10 empty"></div>
+              <div class="ph-col-8 big"></div>
+              <div class="ph-col-4 big empty"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  {% if meta_rate_queryset %}
+  <div class="container mt-5 mb-5">
+    <div class="d-flex justify-content-between">
+      <h3 class="text-muted text-nowrap fs-3">Most Rated Meta</h3>
+      <a href="{% url 'showMore' 'rate_meta' %}" class="text-primary pb-0">
+        <h4 class="text-nowrap fs-4">See More ></h4>
+      </a>
+    </div>
+    <div class="row" id="rate_meta">
+      {% for i in meta_rate_queryset %}
+      <div class="col-md-4">
+        <div class="ph-item shadow-lg rounded-3">
+          <div class="ph-col-12">
+            <div class="ph-picture"></div>
+            <div class="ph-row">
+              <div class="ph-col-8 empty"></div>
+              <div class="ph-col-4"></div>
+              <div class="ph-col-12"></div>
+            </div>
+          </div>
+          <div class="ph-col-2">
+            <div class="ph-avatar"></div>
+          </div>
+          <div>
+            <div class="ph-row">
+              <div class="ph-col-12"></div>
+              <div class="ph-col-2"></div>
+              <div class="ph-col-10 empty"></div>
+              <div class="ph-col-8 big"></div>
+              <div class="ph-col-4 big empty"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  {% if project_rate_queryset %}
+  <div class="container mt-5 mb-5">
+    <div class="d-flex justify-content-between">
+      <h3 class="text-muted text-nowrap fs-4">Most Rated Project</h3>
+      <a href="{% url 'showMore' 'rate_project' %}" class="text-primary pb-0">
+        <h4 class="text-nowrap fs-4">See More ></h4>
+      </a>
+    </div>
+    <div class="row" id="rate_project">
+      {% for i in project_rate_queryset %}
+      <div class="col-md-4">
+        <div class="ph-item shadow-lg rounded-3">
+          <div class="ph-col-12">
+            <div class="ph-picture"></div>
+            <div class="ph-row">
+              <div class="ph-col-8 empty"></div>
+              <div class="ph-col-4"></div>
+              <div class="ph-col-12"></div>
+            </div>
+          </div>
+          <div class="ph-col-2">
+            <div class="ph-avatar"></div>
+          </div>
+          <div>
+            <div class="ph-row">
+              <div class="ph-col-12"></div>
+              <div class="ph-col-2"></div>
+              <div class="ph-col-10 empty"></div>
+              <div class="ph-col-8 big"></div>
+              <div class="ph-col-4 big empty"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>  
+  </div>
+  {% endif %}
+  
+{% endblock content %}
+{% block script %}
+
+<script src="{% static 'dist/js/home_fetch.js' %}"></script>{% endblock script %}
+
