@@ -15,7 +15,12 @@ SECRET_KEY = 'django-insecure-o#b0csd58mno$+sf*twk#5^&9frgk_f$^!dz5mtc52)3r+tbmv
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-#CSRF_TRUSTED_ORIGINS = ['https://e70f-105-112-28-104.eu.ngrok.io']
+CSRF_TRUSTED_ORIGINS = ['https://yembot31013-shiny-engine-67rp6q6pj563pxr-8000.preview.app.github.dev']
+
+CORS_ORIGIN_WHITELIST = [
+    "https://yembot31013-shiny-engine-67rp6q6pj563pxr-8000.preview.app.github.dev",
+]
+
 
 
 # Application definition
