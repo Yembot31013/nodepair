@@ -21,11 +21,12 @@ def seller_info(request, name):
   meta = user_info.overview_set.all()
   project = user_info.project_overview_set.all()
   chatMsg = ChatMessage.objects.filter(to_id = request.user.id, unread = True).order_by("-timestamp")
-
+  pending_count = Meta_Order.objects.filter(seller_id = pl.id, status = "Pending").count()
   context = {
     "profile": pl,
     "meta": meta,
     "project": project,
+    "pending_count": pending_count,
     "chatMsg": chatMsg
   }
 
@@ -38,8 +39,10 @@ def home(request):
   if not pl.seller_mode:
     return redirect("/")
   chatMsg = ChatMessage.objects.filter(to_id = request.user.id, unread = True).order_by("-timestamp")
+  pending_count = Meta_Order.objects.filter(seller_id = pl.id, status = "Pending").count()
   context = {
     "profile": pl,
+    "pending_count": pending_count,
     "chatMsg": chatMsg
   }
   return render(request, "nodeDashboard/nodeHome.html", context)
@@ -51,8 +54,10 @@ def dashboard(request):
     return redirect("/")
   metaOrder = Meta_Order.objects.filter(seller_id = pl.id).order_by("-created_at")[:5]
   chatMsg = ChatMessage.objects.filter(to_id = request.user.id, unread = True).order_by("-timestamp")
+  pending_count = Meta_Order.objects.filter(seller_id = pl.id, status = "Pending").count()
   context = {
     "profile": pl,
+    "pending_count": pending_count,
     "metaOrder": metaOrder,
     "chatMsg": chatMsg
   }
@@ -89,9 +94,11 @@ def product(request):
   chatMsg = ChatMessage.objects.filter(to_id = request.user.id, unread = True).order_by("-timestamp")
   meta = request.user.overview_set.all()
   project = request.user.project_overview_set.all()
+  pending_count = Meta_Order.objects.filter(seller_id = pl.id, status = "Pending").count()
   context = {
     "profile": pl,
     "meta": meta,
+    "pending_count": pending_count,
     "project": project,
     "chatMsg": chatMsg
   }
@@ -103,8 +110,10 @@ def customer(request):
   if not pl.seller_mode:
     return redirect("/")
   chatMsg = ChatMessage.objects.filter(to_id = request.user.id, unread = True).order_by("-timestamp")
+  pending_count = Meta_Order.objects.filter(seller_id = pl.id, status = "Pending").count()
   context = {
     "profile": pl,
+    "pending_count": pending_count,
     "chatMsg": chatMsg
   }
   return render(request, "nodeDashboard/nodeCustomer.html", context)
@@ -115,8 +124,10 @@ def iframeTab(request):
   if not pl.seller_mode:
     return redirect("/")
   chatMsg = ChatMessage.objects.filter(to_id = request.user.id, unread = True).order_by("-timestamp")
+  pending_count = Meta_Order.objects.filter(seller_id = pl.id, status = "Pending").count()
   context = {
     "profile": pl,
+    "pending_count": pending_count,
     "chatMsg": chatMsg
   }
   return render(request, "nodeDashboard/iframe.html", context)
@@ -127,8 +138,10 @@ def chatbot(request):
   if not pl.seller_mode:
     return redirect("/")
   chatMsg = ChatMessage.objects.filter(to_id = request.user.id, unread = True).order_by("-timestamp")
+  pending_count = Meta_Order.objects.filter(seller_id = pl.id, status = "Pending").count()
   context = {
     "profile": pl,
+    "pending_count": pending_count,
     "chatMsg": chatMsg
   }
   return render(request, "nodeDashboard/trainChatBot.html", context)
@@ -137,8 +150,10 @@ def chatbot(request):
 def settings(request):
   pl = get_object_or_404(Personal_Info, profile_id = request.user.id)
   total_unread = ChatMessage.objects.filter(to_id = request.user.id, unread = True).count()
+  pending_count = Meta_Order.objects.filter(seller_id = pl.id, status = "Pending").count()
   context = {
     "profile": pl,
+    "pending_count": pending_count,
     "total_unread": total_unread,
   }
   return render(request, "nodeDashboard/settings.html", context)
