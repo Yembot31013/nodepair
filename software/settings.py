@@ -16,7 +16,7 @@ SECRET_KEY = 'django-insecure-o#b0csd58mno$+sf*twk#5^&9frgk_f$^!dz5mtc52)3r+tbmv
 
 if 'state' in os.environ and os.environ['state'] == 'PRODUCTION':
     # SECURITY WARNING: don't run with debug turned on in production!
-    DEBUG = False
+    DEBUG = True
 
 if 'state' in os.environ and os.environ['state'] == 'PRODUCTION':
     # SECURITY WARNING: keep the secret key used in production secret!
