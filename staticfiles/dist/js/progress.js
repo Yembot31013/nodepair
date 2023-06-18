@@ -11,11 +11,13 @@ $(document).ready(function () {
 	var count = 0;
 	var counts = 0;
 	var countl = 0;
+	var successfulSubmit = false;
 	let pics;
 	var res = true;
 	var steps = $("fieldset").length;
 	var data = {
 		"fullname": "",
+		"slogan": "",
 		"profile_pics": "",
 		"description": "",
 		"language": {},
@@ -26,6 +28,41 @@ $(document).ready(function () {
 	$(".picer").hide();
 
 	setProgressBar(current);
+function validate_year(fyear, tyear){
+	if (isNaN(fyear) | isNaN(tyear)){
+		Swal.fire(
+			'Error',
+			 "please confirm that the year is in right format",
+			 'warning'
+		)
+		return false;
+	}
+	if ( fyear.toString().length != 4 | tyear.toString().length != 4) {
+		Swal.fire(
+			'Error',
+			 "please confirm that the year is in right format",
+			 'warning'
+		)
+		return false;
+	}
+	if (!fyear.length | !tyear.length){
+		Swal.fire(
+			'Error',
+			 "please confirm that the year fields is not empty",
+			 'warning'
+		)
+		return false;
+	}
+	if (parseInt(fyear) > parseInt(tyear)) {
+		Swal.fire(
+			'Error',
+			 "starting year can't be greater than ending yaer",
+			 'warning'
+		)
+		return false;
+	}
+	return true;
+}
 $(function(){
 		$.ajax({
 			method: "GET",
@@ -126,7 +163,8 @@ $(function(){
 		  $(".picer").show();
 		};
 		fileReader.readAsDataURL(folder);
-		}})
+		}
+	})
 
 	$(".langs").click(function () {
 		var language = {};
@@ -164,7 +202,9 @@ $(function(){
 			
 			data["language"][countl] = language
 			countl = countl + 1;
+			$(".lang").val("")
 			console.log(data)
+
 		}
 	});
 	$(".addo").click(function () {
@@ -194,7 +234,7 @@ $(function(){
 				 'warning'
 			)
 		}
-		else{
+		else if(validate_year(fyear, tyear)){
 			occupation["occup"] = occup;
 			occupation["fyear"] = fyear;
 			occupation["tyear"] = tyear;
@@ -258,13 +298,14 @@ $(function(){
 			}
 	});
 
-	$(".next").click(function () {
+	$(".next").click(async function () {
 
 		current_fs = $(this).parent();
 		next_fs = $(this).parent().next();
 
 		if (current == 1){
 			var fullname = $(".fullname").val();
+			var slogan = $(".slogan").val();
 			var desc = $(".desc").val();
 			if (fullname == "" | fullname == " "){
 				Swal.fire(
@@ -274,6 +315,15 @@ $(function(){
 				)
 				return false;
 			}
+			else if (slogan == "" | slogan == " "){
+				Swal.fire(
+					'Error',
+					 "slogan must not be left empty",
+					 'warning'
+				)
+				return false;
+			}
+
 			else if (desc == "" | desc == " "){
 				Swal.fire(
 					'Error',
@@ -282,17 +332,63 @@ $(function(){
 				)
 				return false;
 			}
-		
+			else if (pics == "" | pics == null){
+				Swal.fire(
+					'Error',
+					 "It is strongly advicable to add a profile picture of yourself",
+					 'warning'
+				)
+				return false;
+			}
+			const { value: confirmText } = await Swal.fire({
+				title: 'Are you sure?',
+				text: "You won't be able to go back!",
+				input: 'text',
+				inputLabel: 'type nodepair',
+				showCancelButton: true,
+				allowOutsideClick: false,
+				inputValidator: (value) => {
+					if (!value | value != "nodepair") {
+					return 'You need to write nodepair in the input field!'
+					}
+				}
+				})
+				
+				if (confirmText != "nodepair") {
+				return false;
+				}
+			
 
 			data["fullname"] = fullname;
+			data["slogan"] = slogan;
 			data["profile_pics"] = pics;
 			data["description"] = desc;
+			console.log(data)
+
 		}
 
 		if (current == 2){
 			var url = $(".url").val();
+			const { value: confirmText } = await Swal.fire({
+				title: 'Are you sure?',
+				text: "You won't be able to go back!",
+				input: 'text',
+				inputLabel: 'type nodepair',
+				showCancelButton: true,
+				allowOutsideClick: false,
+				inputValidator: (value) => {
+				  if (!value | value != "nodepair") {
+					return 'You need to write nodepair in the input field!'
+				  }
+				}
+			  })
+			  
+			  if (confirmText != "nodepair") {
+				return false;
+			  }
 			data["url"] = url;
 			$.ajax({
+				async: false,
 				method: "POST",
 				url: "/soap",
 				data: {
@@ -304,22 +400,28 @@ $(function(){
 				},
 				// datatype: "dataType",
 				success: function (response) {
+					successfulSubmit = true
 					Swal.fire(
-				   'Success!!!',
-				   response.status,
-					'success'
-				  )
+						'Success!!!',
+						response.status,
+						'success'
+				   )
 				},
 				error: function (e) {
-				  Swal.fire(
-				   'Error',
-					e.statusText,
-					'warning'
-				  )
-				  return false;
+					successfulSubmit = false
+					Swal.fire({
+						icon: 'error',
+						title: 'Oops...',
+						allowOutsideClick: false,
+						text: `Something went wrong!`,
+						footer: '<a href="">Why do I have this issue?</a>'
+					  })
+					return false;
 				}
-			  })
-			 
+			})
+			if (successfulSubmit == false){
+				return false;
+			}
 		}
 		//Add Class Active
 		$("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");

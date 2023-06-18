@@ -594,7 +594,7 @@ document.querySelector(".pdf2Input").addEventListener("change", (e) =>{
 		})
 		}
 	})	
-	$(".next").click(function () {
+	$(".next").click(async function () {
 
 		current_fs = $(this).parent();
 		next_fs = $(this).parent().next();
@@ -635,6 +635,30 @@ document.querySelector(".pdf2Input").addEventListener("change", (e) =>{
 				)
 				return false;
 			}
+			const { value: confirmText } = await Swal.fire({
+				title: 'Are you sure?',
+				text: "You won't be able to go back!",
+				input: 'text',
+				inputLabel: 'type nodepair',
+				showCancelButton: true,
+				allowOutsideClick: false,
+				inputValidator: (value) => {
+				  if (!value | value != "nodepair") {
+					return 'You need to write nodepair in the input field!'
+				  }
+				}
+			  })
+			  
+			  if (confirmText == "nodepair") {
+				Swal.fire(
+					'Ok!',
+					'Saved Sucessfully.',
+					'success'
+				  )
+			  }
+			 else{
+				return false;
+			 }
 			data["projectTitle"] = projectTitle
 			data["category"] = category
 			data["subCategory"] = subCategory
@@ -651,6 +675,30 @@ document.querySelector(".pdf2Input").addEventListener("change", (e) =>{
 				)
 				return false;
 			}
+			const { value: confirmText } = await Swal.fire({
+				title: 'Are you sure?',
+				text: "You won't be able to go back!",
+				input: 'text',
+				inputLabel: 'type nodepair',
+				showCancelButton: true,
+				allowOutsideClick: false,
+				inputValidator: (value) => {
+				  if (!value | value != "nodepair") {
+					return 'You need to write nodepair in the input field!'
+				  }
+				}
+			  })
+			  
+			  if (confirmText == "nodepair") {
+				Swal.fire(
+					'Ok!',
+					'Saved Sucessfully.',
+					'success'
+				  )
+			  }
+			 else{
+				return false;
+			 }
 			console.log(data)
 		}
 
@@ -664,6 +712,30 @@ document.querySelector(".pdf2Input").addEventListener("change", (e) =>{
 				)
 				return false;
 			}
+			const { value: confirmText } = await Swal.fire({
+				title: 'Are you sure?',
+				text: "You won't be able to go back!",
+				input: 'text',
+				inputLabel: 'type nodepair',
+				showCancelButton: true,
+				allowOutsideClick: false,
+				inputValidator: (value) => {
+				  if (!value | value != "nodepair") {
+					return 'You need to write nodepair in the input field!'
+				  }
+				}
+			  })
+			  
+			  if (confirmText == "nodepair") {
+				Swal.fire(
+					'Ok!',
+					'Saved Sucessfully.',
+					'success'
+				  )
+			  }
+			 else{
+				return false;
+			 }
 			data["description"] = description;
 			console.log(data)
 		}
@@ -671,8 +743,33 @@ document.querySelector(".pdf2Input").addEventListener("change", (e) =>{
 		if (current == 4) {
 			var note = $(".requireNote").val().trim()
 			if (note != "") {
+				const { value: confirmText } = await Swal.fire({
+					title: 'Are you sure?',
+					text: "You won't be able to go back!",
+					input: 'text',
+					inputLabel: 'type nodepair',
+					showCancelButton: true,
+					allowOutsideClick: false,
+					inputValidator: (value) => {
+					  if (!value | value != "nodepair") {
+						return 'You need to write nodepair in the input field!'
+					  }
+					}
+				  })
+				  
+				  if (confirmText == "nodepair") {
+					Swal.fire(
+						'Ok!',
+						'Saved Sucessfully.',
+						'success'
+					  )
+				  }
+				 else{
+					return false;
+				 }
 				data["requiredNote"] = note
 			}
+			
 		}
 		if (current == 5) {
 			if ((data["img1"] == data["img2"]) & data["img1"] != "") {
@@ -707,7 +804,30 @@ document.querySelector(".pdf2Input").addEventListener("change", (e) =>{
 				)
 				return false;
 			}
-
+			const { value: confirmText } = await Swal.fire({
+				title: 'Are you sure?',
+				text: "You won't be able to go back!",
+				input: 'text',
+				inputLabel: 'type nodepair',
+				showCancelButton: true,
+				allowOutsideClick: false,
+				inputValidator: (value) => {
+				  if (!value | value != "nodepair") {
+					return 'You need to write nodepair in the input field!'
+				  }
+				}
+			  })
+			  
+			  if (confirmText == "nodepair") {
+				Swal.fire(
+					'Ok!',
+					'Saved Sucessfully.',
+					'success'
+				  )
+			  }
+			 else{
+				return false;
+			 }
 			console.log(data)
 			document.querySelector(".data").value = JSON.stringify(data);
 		}
