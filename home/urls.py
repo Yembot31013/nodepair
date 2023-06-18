@@ -5,7 +5,7 @@ from home import views
 
 urlpatterns = [
     path('', views.home, name="homes"),
-    path('alter', views.change, name="switch"),
+    path('alter', views.change, name="switch"), # type: ignore
     path('listLanguage', fetch.search_language),
     path('listOccupation', fetch.search_occupation),
     path('listSkill', fetch.search_skill),
@@ -24,7 +24,7 @@ urlpatterns = [
     # payment package Url
     path('package/<int:pay_id>', views.payment_package, name="payment_package"),
     # subcribe Url
-    path('subcribe', views.feedback),
+    path('subcribe', views.feedback), # type: ignore
     # create profile submit (json) Url
     path('soap', create_meta.create_profile),
     # create project Url

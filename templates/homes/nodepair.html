@@ -63,41 +63,31 @@
 								</a>
 							</div>
 							<ul class="main-nav">
-								<li>
-									<a href="admin/index.html" target="_blank">Admin</a>
+								<li class="active">
+									<a href="/">Home</a>
 								</li>
 								<li>
-									<a href="admin/index.html" target="_blank">Admin</a>
+									<a href="#">about Us</a>
 								</li>
-								<li>
-									<a href="admin/index.html" target="_blank">Admin</a>
-								</li>
-								<li>
-									<a href="admin/index.html" target="_blank">Admin</a>
-								</li>
-								<li class="active has-submenu">
-									<a href="index.html">Home <i class="fas fa-chevron-down"></i></a>
+								<li class="has-submenu">
+									<a href="#">Support Us<i class="fas fa-chevron-down"></i></a>
 									<ul class="submenu">
-										<li><a href="index.html">Home</a></li>
-										<li><a href="index-two.html">Home 2</a></li>
-										<li><a href="index-three.html">Home 3</a></li>
-										<li><a href="index-four.html">Home 4</a></li>
-										<li><a href="index-five.html">Home 5</a></li>
-										<li class="active"><a href="index-six.html">Home 6</a></li>
-										<li><a href="index-seven.html">Home 7</a></li>
+										<li><a href="#">Feed Back</a></li>
+										<li><a href="#">Donate</a></li>
+										<li><a href="#">Partner</a></li>
 									</ul>
 								</li>
 								<li class="login-link">
-									<a href="login.html">Login / Signup</a>
+									<a href="{% url 'loginpage' %}">Login / Signup</a>
 								</li>
 							</ul>		 
 						</div>		 
 						<ul class="nav header-navbar-rht">
 							<li class="nav-item">
-								<a class="nav-link" href="login.html">Login</a>
+								<a class="nav-link" href="{% url 'loginpage' %}">Login</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link header-login" href="register.html">Sign up</a>
+								<a class="nav-link header-login" href="{% url 'register' %}">Sign up</a>
 							</li>
 						</ul>
 					</div>		
