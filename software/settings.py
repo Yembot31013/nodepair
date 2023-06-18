@@ -144,7 +144,7 @@ if 'state' in os.environ and os.environ['state'] == 'PRODUCTION':
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': conn_str_params['dbname'],
+            'NAME': conn_str_params['dbname'], # type: ignore
             'HOST': conn_str_params['host'],
             'USER': conn_str_params['user'],
             'PASSWORD': conn_str_params['password'],
