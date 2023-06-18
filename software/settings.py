@@ -17,6 +17,8 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 #CSRF_TRUSTED_ORIGINS = ['https://e70f-105-112-28-104.eu.ngrok.io']
 
+if 'CODESPACE_NAME' in os.environ:
+    CSRF_TRUSTED_ORIGINS = [f'https://{os.getenv("CODESPACE_NAME")}-8000.{os.getenv("GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN")}']
 
 # Application definition
 

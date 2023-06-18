@@ -1,2 +1,4 @@
 env/
 .cph/
+db.sqlite3
+.vscode

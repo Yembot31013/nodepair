@@ -65,7 +65,7 @@ def home(request):
         }
         return render(request, "homes/index.html", context)
     
-    return render(request, 'homes/home.html')
+    return render(request, 'homes/nodepair.html')
 def about_meta(request, query):
     about_obj = get_object_or_404(Overview, pk=int(query))
     pl = Personal_Info.objects.filter(profile_id = request.user.id).first()
