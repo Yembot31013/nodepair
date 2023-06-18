@@ -60,4 +60,4 @@ jobs:
         with:
           app-name: 'nodepair'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A063729A48A54B23B91C57247C62CC76 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_1A53C78E44284E6AB4A11B73451DE0CF }}
