@@ -1,3 +1,0 @@
-sentences = "i go up,up i go,is it go up, yes is it to go up"
-
-print(sentences{0})
