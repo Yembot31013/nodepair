@@ -73,7 +73,7 @@ class FAQ(models.Model):
         return self.question
 
 class Gallery(models.Model):
-    profile = models.ForeignKey(Overview,on_delete=models.CASCADE, blank=True, null=True)
+    profile = models.ForeignKey(Overview,on_delete=models.CASCADE, blank=True, null=True, related_name="gallery")
     Picture = models.ImageField(upload_to='meta_images/', null=True, blank=True)
 
 

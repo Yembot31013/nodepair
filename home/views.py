@@ -15,7 +15,7 @@ def query_search(request, query):
     pl = Personal_Info.objects.filter(profile_id = request.user.id).first()
     metaqueryset = Overview.objects.filter(title__contains=query, keyword__search_keyword__contains=query).order_by("progress")
     projectqueryset = Project_Overview.objects.filter(title__contains = query, keyword__search_keyword__contains=query).order_by("progress")
-    chatMsg = ChatMessage.objects.filter(to_id = request.user.id, unread = True).order_by("timestamp")
+    chatMsg = ChatMessage.objects.filter(to_id = request.user.id, unread = True).order_by("timestamp") # type: ignore
     data = ""
     context = {
         "metaqueryset": metaqueryset,
@@ -64,8 +64,14 @@ def home(request):
             "chatMsg": chatMsg,
         }
         return render(request, "homes/index.html", context)
+    all_sellers = Personal_Info.objects.all().order_by('impression')
+    trending_meta = Overview.objects.all().order_by('progress')
     
-    return render(request, 'homes/nodepair.html')
+    context = {
+        'popular_nodes': all_sellers,
+        'trending_meta': trending_meta,
+    }
+    return render(request, 'homes/nodepair.html', context)
 def about_meta(request, query):
     about_obj = get_object_or_404(Overview, pk=int(query))
     pl = Personal_Info.objects.filter(profile_id = request.user.id).first()

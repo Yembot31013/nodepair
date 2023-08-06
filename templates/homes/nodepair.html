@@ -30,6 +30,13 @@
 
 		<!-- Main CSS -->
 		<link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+
+		<style>
+			.img-fluid {
+				max-width: 100%;
+				height: 200px;
+			}
+		</style>
 	
 	</head>
 	<body class="body-home-one">
@@ -128,7 +135,7 @@
 					<div class="section-header-eight text-center aos" data-aos="fade-up">
 						<span>Freelancing Flow</span>
 						<h2>How does it works ?</h2>
-						<p class="sub-title">Are you looking to join online institutions? Now it's very simple, Sign up with mentoring</p>
+						<p class="sub-title">Are you looking for freelance opportunities? Join our platform and discover a seamless way to connect with clients and showcase your skills.</p>
 						<div class="sec-dots">
 							  <span></span>
 							  <span></span>
@@ -146,7 +153,7 @@
 										<div class="feature-text-eight">Sign up</div>
 									</div>
 								</div>
-								<p>Are you looking to join online Learning? Now it's very simple, Now Sign up</p>
+								<p>Ready to explore freelancing? Sign up and create your account on our platform to get started on your freelance journey.</p>
 								<span class="text-green">01</span>
 							</div>
 						</div>
@@ -160,7 +167,7 @@
 										<div class="feature-text-eight">Collaborate</div>
 									</div>
 								</div>
-								<p>Collaborate on your own timing, by scheduling with mentor booking</p>
+								<p>Collaborate with clients on your terms. Schedule appointments and discuss project details to ensure a smooth workflow and successful outcomes.</p>
 								<span class="text-blue">02</span>
 							</div>
 						</div>
@@ -174,7 +181,7 @@
 										<div class="feature-text-eight">Improve & Get Back</div>
 									</div>
 								</div>
-								<p>you can gather different skill set, and you can become mentor too</p>
+								<p>Showcase your expertise and deliver outstanding results. Once the project is completed, receive payment securely through our smart contract-based system.</p>
 								<span class="text-orange">03</span>
 							</div>
 						</div>						
@@ -188,9 +195,9 @@
 				<div class="mendor-title">
 					<div class="section-header-eight text-center">
 						<div class="container aos" data-aos="fade-up">
-							<span>Mentoring Goals</span>
-							<h2 class="text-white">Popular Mentors</h2>
-							<p class="sub-title text-white"> Choose your most popular leaning mentors, it will help you to achieve your professional goals..</p>
+							<span>Freelancing Goals</span>
+							<h2 class="text-white">Popular Nodes</h2>
+							<p class="sub-title text-white">Join our decentralized freelancing platform and connect with well-known nodes who can assist you in reaching your StartUp objectives.</p>
 							<div class="sec-dots">
 								<span></span>
 								<span></span>
@@ -202,19 +209,20 @@
 				<div class="mendor-list">
 					<div class="container aos" data-aos="fade-up">
 						<div class="mendor-slider slick">
-						
-							<!-- Mentor Item -->
+							
+							{% for node in popular_nodes %}
+							  <!-- Mentor Item -->
 							<div class="mendor-box">
 								<div class="mendor-img">
-									<a href="profile.html">
-										<img class="img-fluid" alt="" src="assets/img/mendor/mendor-01.jpg">
+									<a href="{% url 'seller_info' node.slug %}">
+										<img class="img-fluid" alt="" src="{{node.avatar}}">
 									</a>
-									<div class="mendor-country"><i class="fas fa-map-marker-alt"></i> Paris, France</div>
+									<div class="mendor-country"><i class="fas fa-map-marker-alt"></i> {{node.location}}</div>
 								</div>
 								<div class="mendor-content">
-									<h3 class="title"><a href="profile.html">Donna Yancey</a></h3>
+									<h3 class="title"><a href="{% url 'seller_info' node.slug %}">{{node.full_Name}}</a></h3>
 									<div class="mendor-course">
-										Digital Marketer
+										{{node.slogan}}
 									</div>
 									<div class="mendor-price-list">									
 										<div class="mendor-price">$100 <span>/ hr</span></div>
@@ -229,114 +237,7 @@
 								</div>
 							</div>
 							<!-- /Mentor Item -->
-							
-							<!-- Mentor Item -->
-							<div class="mendor-box">
-								<div class="mendor-img">
-									<a href="profile.html">
-										<img class="img-fluid" alt="" src="assets/img/mendor/mendor-02.jpg">
-									</a>
-									<div class="mendor-country"><i class="fas fa-map-marker-alt"></i> Paris, France</div>
-								</div>
-								<div class="mendor-content">
-									<h3 class="title"><a href="profile.html">James Amen</a></h3>
-									<div class="mendor-course">
-										UNIX, Calculus, Trigonometry
-									</div>
-									<div class="mendor-price-list">									
-										<div class="mendor-price">$500 <span>/ hr</span></div>
-										<div class="mendor-rating">							
-											<i class="fas fa-star filled"></i>
-											<i class="fas fa-star filled"></i>
-											<i class="fas fa-star filled"></i>
-											<i class="fas fa-star filled"></i>
-											<i class="fas fa-star"></i>
-										</div>
-									</div>
-								</div>
-							</div>
-							<!-- /Mentor Item -->
-							
-							<!-- Mentor Item -->
-							<div class="mendor-box">
-								<div class="mendor-img">
-									<a href="profile.html">
-										<img class="img-fluid" alt="" src="assets/img/mendor/mendor-03.jpg">
-									</a>
-									<div class="mendor-country"><i class="fas fa-map-marker-alt"></i> Paris, France</div>
-								</div>
-								<div class="mendor-content">
-									<h3 class="title"><a href="profile.html">Marvin Downey</a></h3>
-									<div class="mendor-course">
-										ASP.NET,Computer Gaming
-									</div>
-									<div class="mendor-price-list">									
-										<div class="mendor-price">$400 <span>/ hr</span></div>
-										<div class="mendor-rating">							
-											<i class="fas fa-star filled"></i>
-											<i class="fas fa-star filled"></i>
-											<i class="fas fa-star filled"></i>
-											<i class="fas fa-star filled"></i>
-											<i class="fas fa-star"></i>
-										</div>
-									</div>
-								</div>
-							</div>
-							<!-- /Mentor Item -->
-							
-							<!-- Mentor Item -->
-							<div class="mendor-box">
-								<div class="mendor-img">
-									<a href="profile.html">
-										<img class="img-fluid" alt="" src="assets/img/mendor/mendor-04.jpg">
-									</a>
-									<div class="mendor-country"><i class="fas fa-map-marker-alt"></i> Paris, France</div>
-								</div>
-								<div class="mendor-content">
-									<h3 class="title"><a href="profile.html">Betty Hairston</a></h3>
-									<div class="mendor-course">
-										Computer Programming
-									</div>
-									<div class="mendor-price-list">									
-										<div class="mendor-price">$300 <span>/ hr</span></div>
-										<div class="mendor-rating">							
-											<i class="fas fa-star filled"></i>
-											<i class="fas fa-star filled"></i>
-											<i class="fas fa-star filled"></i>
-											<i class="fas fa-star filled"></i>
-											<i class="fas fa-star"></i>
-										</div>
-									</div>
-								</div>
-							</div>
-							<!-- /Mentor Item -->
-							
-							<!-- Mentor Item -->
-							<div class="mendor-box">
-								<div class="mendor-img">
-									<a href="profile.html">
-										<img class="img-fluid" alt="" src="assets/img/mendor/mendor-03.jpg">
-									</a>
-									<div class="mendor-country"><i class="fas fa-map-marker-alt"></i> Paris, France</div>
-								</div>
-								<div class="mendor-content">
-									<h3 class="title"><a href="profile.html">Jose Anderson</a></h3>
-									<div class="mendor-course">
-										Digital Marketer
-									</div>
-									<div class="mendor-price-list">									
-										<div class="mendor-price">$400 <span>/ hr</span></div>
-										<div class="mendor-rating">							
-											<i class="fas fa-star filled"></i>
-											<i class="fas fa-star filled"></i>
-											<i class="fas fa-star filled"></i>
-											<i class="fas fa-star filled"></i>
-											<i class="fas fa-star"></i>
-										</div>
-									</div>
-								</div>
-							</div>
-							<!-- /Mentor Item -->
+							{% endfor %}
 							
 						</div>
 					</div>
@@ -350,35 +251,35 @@
 					<div class="row">
 						<div class="col-md-6 d-flex align-items-center ">
 							<div class="knowledge-img-three aos " data-aos="fade-up">
-								<img src="assets/img/join-3.png" alt="">
+								<img src="{% static 'assets/img/join-3.png' %}" alt="">
 							</div>
 						</div>
 						<div class="col-md-6 d-flex align-items-center">
 							<div class="join-us-all aos " data-aos="fade-up">
 								<div class="join-us-heading">
-									<h2>Want to share your knowledge? <br>Join usa Mentor</h2>
-									<p>High-definition video is video of higher resolution and quality than standard-definition. While there is no standardized meaning for high-definition, generally any video.</p>
+									<h2>Have a Startup Idea? <br>Share Your Vision with Us!</h2>
+									<p>If you have a brilliant startup idea and want to bring it to life, join our platform as a visionary. Share your knowledge and expertise, and our network of skilled nodes will collaborate with you to turn your vision into reality.</p>
 								</div>
 								<div class="join-two-face">
 									<div class="row">
 										<div class="col-lg-6 col-md-12">
 											<div class="best-course-three">
-												<h4>Best Courses</h4>
-												<p>Courses for all levels cover technical skills, creative techniques, business strategies, and more. We have collected all of the necessary effective study.</p>
+												<h4>Discover Meta Opportunities</h4>
+												<p>Explore our platform to discover a multitude of meta opportunities. Connect with talented freelancers who can assist you in transforming your startup ideas into successful ventures.</p>
 											</div>
 										</div>
 										<div class="col-lg-6 col-md-12">
 											<div class="best-course-three">
-												<h4>Top rated Instructors</h4>
-												<p>Courses for all levels cover technical skills, creative techniques, business strategies, and more. We have collected all of the necessary effective study.</p>
+												<h4>Top Rated Nodes</h4>
+												<p>Learn from and collaborate with top-rated freelancers in our platform's vibrant community. Our platform showcases industry-leading experts who have excelled in their fields, ensuring you have access to skilled professionals who can deliver exceptional results.</p>
 												<div class="popular-three-bg">
-													<img src="assets/img/popular-bg.png" alt="">
+													<img src="{% static 'assets/img/popular-bg.png' %}" alt="">
 												</div>
 											</div>
 										</div>
 									</div>
 									<div class="explore-more ">
-										<a href="search.html" class="btn bg-explore">Read More</a>
+										<a href="{% url 'showMore' 'rec_meta' %}" class="btn bg-explore">Read More</a>
 									</div>
 								</div>
 							</div>
@@ -392,38 +293,38 @@
 			<section class="testimonial-two student-say-about testimonial-section">
 				<div class="container">
 					<div class="section-header h-three text-center aos " data-aos="fade-up">
-						<h2>We Value Our Students, <br>let’s Hear from them</h2>
+						<h2>We Value Our Teams, <br>let’s Hear from them</h2>
 					</div>
 					<div class="move-student">
 						<ul class="student-item">
 							<li class="student-list">
 								<div class="student-list" data-toggle="tab">
-									<img src="assets/img/user/user.jpg" alt="">
+									<img src="{% static 'assets/img/user/user.jpg' %}" alt="">
 								</div>
 							</li>
 							<li class="student-list">
 								<div class="student-list" data-toggle="tab">
-									<img src="assets/img/user/user1.jpg" alt="">
+									<img src="{% static 'assets/img/user/user1.jpg' %}" alt="">
 								</div>
 							</li>
 							<li class="student-list">
 								<div class="student-list" data-toggle="tab">
-									<img src="assets/img/user/user2.jpg" alt="">
+									<img src="{% static 'assets/img/user/user2.jpg' %}" alt="">
 								</div>
 							</li>
 							<li class="student-list">
 								<div class="student-list" data-toggle="tab">
-									<img src="assets/img/user/user3.jpg" alt="">
+									<img src="{% static 'assets/img/user/user3.jpg' %}" alt="">
 								</div>
 							</li>
 							<li class="student-list">
 								<div class="student-list" data-toggle="tab">
-									<img src="assets/img/user/user4.jpg" alt="">
+									<img src="{% static 'assets/img/user/user4.jpg' %}" alt="">
 								</div>
 							</li>
 							<li class="student-list">
 								<div class="student-list" data-toggle="tab">
-									<img src="assets/img/user/user5.jpg" alt="">
+									<img src="{% static 'assets/img/user/user5.jpg' %}" alt="">
 								</div>
 							</li>
 						</ul>
@@ -501,23 +402,21 @@
 			<section class="section trending-courses trending-courses-five">
 				<div class="container">
 					<div class="section-header section-head-left aos " data-aos="fade-up">
-						<h2>Most Trending Courses</h2>
-						<p class="sub-title">Eget aenean accumsan Search School, OLorem ipsum dolor sit amet, consectetur adipiscing elit. Eget aenean accumsan</p>
+						<h2>Most Trending Meta</h2>
+						<p class="sub-title">Stay ahead of the curve by discovering the most trending meta opportunities. Our platform showcases the hottest gigs that are in demand right now. Be part of the cutting-edge projects that are shaping the freelance industry.</p>
 						<div class="view-all ">
-							<a href="search.html">Explore More <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+							<a href="{% url 'showMore' 'rec_meta' %}">Explore More <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
 						</div>
 					</div>
 					<div class="owl-carousel mentoring-course trending-course owl-theme aos " data-aos="fade-up">
+						{% for meta in trending_meta %}						  
 						<div class="course-box">
 							<div class="product">
 								<div class="course-sub-box">
 									<div class="product-img">
 										<a href="search.html">
-											<img class="img-fluid" alt="" src="assets/img/course/img-07.jpg" width="600" height="300">
+											<img class="img-fluid" alt="" src="{{meta.gallery.all.first.Picture.url}}" width="600" height="300">
 										</a>
-										<div class="book-mark">
-											<i class="far fa-bookmark"></i>
-										</div>
 									</div>
 									<div class="product-content">
 										<div class="blog-view-list d-flex">
@@ -527,12 +426,12 @@
 											<p>4.6 (52)</p>
 										</div>
 										<h3 class="title">
-											<a href="search.html">Introduction Learn – LMS plugin</a>
+											<a href="search.html">{{meta.title}}</a>
 										</h3>
 										<div class="course-info d-flex align-items-center">
 											<div class="rating-img d-flex align-items-center">
 												<img src="assets/img/user/user2.jpg" alt="">
-												<h4>Mary Jainn</h4>
+												<h4>{{meta.profile.seller_profile.full_Name}}</h4>
 											</div>
 											<div class="course-view d-flex align-items-center">
 												<div class="graduate-point">
@@ -545,529 +444,13 @@
 								</div>
 								<div class="author-join d-flex align-items-center">
 									<div class="course-price">
-										$700
+										${{meta.get_start_price}}
 									</div>
-									<a href="login.html" class="btn join-now">Join Now</a>
+									<a href="{{meta.get_url}}" class="btn join-now">Join Now</a>
 								</div>
 							</div>
 						</div>
-						
-						<div class="course-box">
-							<div class="product">
-								<div class="course-sub-box">
-									<div class="product-img">
-										<a href="search.html">
-											<img class="img-fluid" alt="" src="assets/img/course/img-08.jpg" width="600" height="300">
-										</a>
-										<div class="book-mark">
-											<i class="far fa-bookmark"></i>
-										</div>
-									</div>
-									<div class="product-content">
-										<div class="blog-view-list d-flex">
-											<div class="blog-admin-view">
-												<p><i class="fas fa-book"></i> <span>10 Lessons</span></p>
-											</div>
-											<p>4.9 (82)</p>
-										</div>
-										<h3 class="title">
-											<a href="search.html">From Zero to Hero with Angular</a>
-										</h3>
-										<div class="course-info d-flex align-items-center">
-											<div class="rating-img d-flex align-items-center">
-												<img src="assets/img/user/user3.jpg" alt="">
-												<h4>Marvin Mathieson</h4>
-											</div>
-											<div class="course-view d-flex align-items-center">
-												<div class="graduate-point">
-													<span>85</span>
-												</div>	
-												<i class="fas fa-user-graduate"></i>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="author-join d-flex align-items-center">
-									<div class="course-price">
-										$100
-									</div>
-									<a href="login.html" class="btn join-now">Join Now</a>
-								</div>
-							</div>
-						</div>
-						<div class="course-box">
-							<div class="product">
-								<div class="course-sub-box">
-									<div class="product-img">
-										<a href="search.html">
-											<img class="img-fluid" alt="" src="assets/img/course/img-09.jpg" width="600" height="300">
-										</a>
-										<div class="book-mark">
-											<i class="far fa-bookmark"></i>
-										</div>
-									</div>
-									<div class="product-content">
-										<div class="blog-view-list d-flex">
-											<div class="blog-admin-view">
-												<p><i class="fas fa-book"></i> <span>60 Lessons</span></p>
-											</div>
-											<p>4.4 (82)</p>
-										</div>
-										<h3 class="title">
-											<a href="search.html">Learn NodeJs – Interactive Free Tu..</a>
-										</h3>
-										<div class="course-info d-flex align-items-center">
-											<div class="rating-img d-flex align-items-center">
-												<img src="assets/img/user/user4.jpg" alt="">
-												<h4>Kathy Mattocks</h4>
-											</div>
-											<div class="course-view d-flex align-items-center">
-												<div class="graduate-point">
-													<span>85</span>
-												</div>	
-												<i class="fas fa-user-graduate"></i>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="author-join d-flex align-items-center">
-									<div class="course-price">
-										$400
-									</div>
-									<a href="login.html" class="btn join-now">Join Now</a>
-								</div>
-							</div>
-						</div>
-						<div class="course-box">
-							<div class="product">
-								<div class="course-sub-box">
-									<div class="product-img">
-										<a href="search.html">
-											<img class="img-fluid" alt="" src="assets/img/course/img-10.jpg" width="600" height="300">
-										</a>
-										<div class="book-mark">
-											<i class="far fa-bookmark"></i>
-										</div>
-									</div>
-									<div class="product-content">
-										<div class="blog-view-list d-flex">
-											<div class="blog-admin-view">
-												<p><i class="fas fa-book"></i> <span>10 Lessons</span></p>
-											</div>
-											<p>4.9 (82)</p>
-										</div>
-										<h3 class="title">
-											<a href="search.html">From Zero to Hero with Web Developer</a>
-										</h3>
-										<div class="course-info d-flex align-items-center">
-											<div class="rating-img d-flex align-items-center">
-												<img src="assets/img/user/user5.jpg" alt="">
-												<h4>Jose Clark</h4>
-											</div>
-											<div class="course-view d-flex align-items-center">
-												<div class="graduate-point">
-													<span>85</span>
-												</div>	
-												<i class="fas fa-user-graduate"></i>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="author-join d-flex align-items-center">
-									<div class="course-price">
-										$100
-									</div>
-									<a href="login.html" class="btn join-now">Join Now</a>
-								</div>
-							</div>
-						</div>
-						<div class="course-box">
-							<div class="product">
-								<div class="course-sub-box">
-									<div class="product-img">
-										<a href="search.html">
-											<img class="img-fluid" alt="" src="assets/img/course/img-11.jpg" width="600" height="300">
-										</a>
-										<div class="book-mark">
-											<i class="far fa-bookmark"></i>
-										</div>
-									</div>
-									<div class="product-content">
-										<div class="blog-view-list d-flex">
-											<div class="blog-admin-view">
-												<p><i class="fas fa-book"></i> <span>35 Lessons</span></p>
-											</div>
-											<p>3.9 (82)</p>
-										</div>
-										<h3 class="title">
-											<a href="search.html">Learn Angular – Interactive Tu...</a>
-										</h3>
-										<div class="course-info d-flex align-items-center">
-											<div class="rating-img d-flex align-items-center">
-												<img src="assets/img/user/user6.jpg" alt="">
-												<h4>Jose Clark</h4>
-											</div>
-											<div class="course-view d-flex align-items-center">
-												<div class="graduate-point">
-													<span>85</span>
-												</div>	
-												<i class="fas fa-user-graduate"></i>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="author-join d-flex align-items-center">
-									<div class="course-price">
-										$200
-									</div>
-									<a href="login.html" class="btn join-now">Join Now</a>
-								</div>
-							</div>
-						</div>
-						<div class="course-box">
-							<div class="product">
-								<div class="course-sub-box">
-									<div class="product-img">
-										<a href="search.html">
-											<img class="img-fluid" alt="" src="assets/img/course/img-12.jpg" width="600" height="300">
-										</a>
-										<div class="book-mark">
-											<i class="far fa-bookmark"></i>
-										</div>
-									</div>
-									<div class="product-content">
-										<div class="blog-view-list d-flex">
-											<div class="blog-admin-view">
-												<p><i class="fas fa-book"></i> <span>20 Lessons</span></p>
-											</div>
-											<p>4.9 (82)</p>
-										</div>
-										<h3 class="title">
-											<a href="search.html">Introduction Learn – LMS plugin</a>
-										</h3>
-										<div class="course-info d-flex align-items-center">
-											<div class="rating-img d-flex align-items-center">
-												<img src="assets/img/user/user7.jpg" alt="">
-												<h4>Mary Jainn</h4>
-											</div>
-											<div class="course-view d-flex align-items-center">
-												<div class="graduate-point">
-													<span>85</span>
-												</div>	
-												<i class="fas fa-user-graduate"></i>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="author-join d-flex align-items-center">
-									<div class="course-price">
-										$300
-									</div>
-									<a href="login.html" class="btn join-now">Join Now</a>
-								</div>
-							</div>
-						</div>
-						<div class="course-box">
-							<div class="product">
-								<div class="course-sub-box">
-									<div class="product-img">
-										<a href="search.html">
-											<img class="img-fluid" alt="" src="assets/img/course/img-13.jpg" width="600" height="300">
-										</a>
-										<div class="book-mark">
-											<i class="far fa-bookmark"></i>
-										</div>
-									</div>
-									<div class="product-content">
-										<div class="blog-view-list d-flex">
-											<div class="blog-admin-view">
-												<p><i class="fas fa-book"></i> <span>10 Lessons</span></p>
-											</div>
-											<p>4.9 (82)</p>
-										</div>
-										<h3 class="title">
-											<a href="search.html">From Zero to Hero with Angular</a>
-										</h3>
-										<div class="course-info d-flex align-items-center">
-											<div class="rating-img d-flex align-items-center">
-												<img src="assets/img/user/user8.jpg" alt="">
-												<h4>Kathy Mattocks</h4>
-											</div>
-											<div class="course-view d-flex align-items-center">
-												<div class="graduate-point">
-													<span>85</span>
-												</div>	
-												<i class="fas fa-user-graduate"></i>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="author-join d-flex align-items-center">
-									<div class="course-price">
-										$100
-									</div>
-									<a href="login.html" class="btn join-now">Join Now</a>
-								</div>
-							</div>
-						</div>
-						<div class="course-box">
-							<div class="product">
-								<div class="course-sub-box">
-									<div class="product-img">
-										<a href="search.html">
-											<img class="img-fluid" alt="" src="assets/img/course/img-14.jpg" width="600" height="300">
-										</a>
-										<div class="book-mark">
-											<i class="far fa-bookmark"></i>
-										</div>
-									</div>
-									<div class="product-content">
-										<div class="blog-view-list d-flex">
-											<div class="blog-admin-view">
-												<p><i class="fas fa-book"></i> <span>30 Lessons</span></p>
-											</div>
-											<p>4.4 (82)</p>
-										</div>
-										<h3 class="title">
-											<a href="search.html">Introduction Learn – LMS plugin</a>
-										</h3>
-										<div class="course-info d-flex align-items-center">
-											<div class="rating-img d-flex align-items-center">
-												<img src="assets/img/user/user9.jpg" alt="">
-												<h4>Deborah Beard</h4>
-											</div>
-											<div class="course-view d-flex align-items-center">
-												<div class="graduate-point">
-													<span>85</span>
-												</div>	
-												<i class="fas fa-user-graduate"></i>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="author-join d-flex align-items-center">
-									<div class="course-price">
-										$400
-									</div>
-									<a href="login.html" class="btn join-now">Join Now</a>
-								</div>
-							</div>
-						</div>
-						<div class="course-box">
-							<div class="product">
-								<div class="course-sub-box">
-									<div class="product-img">
-										<a href="search.html">
-											<img class="img-fluid" alt="" src="assets/img/course/img-15.jpg" width="600" height="300">
-										</a>
-										<div class="book-mark">
-											<i class="far fa-bookmark"></i>
-										</div>
-									</div>
-									<div class="product-content">
-										<div class="blog-view-list d-flex">
-											<div class="blog-admin-view">
-												<p><i class="fas fa-book"></i> <span>11 Lessons</span></p>
-											</div>
-											<p>4.9 (82)</p>
-										</div>
-										<h3 class="title">
-											<a href="search.html">Learn Javascript – Interactive Tu...</a>
-										</h3>
-										<div class="course-info d-flex align-items-center">
-											<div class="rating-img d-flex align-items-center">
-												<img src="assets/img/user/user10.jpg" alt="">
-												<h4>Mary Jainn</h4>
-											</div>
-											<div class="course-view d-flex align-items-center">
-												<div class="graduate-point">
-													<span>85</span>
-												</div>	
-												<i class="fas fa-user-graduate"></i>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="author-join d-flex align-items-center">
-									<div class="course-price">
-										$500
-									</div>
-									<a href="login.html" class="btn join-now">Join Now</a>
-								</div>
-							</div>
-						</div>
-						<div class="course-box">
-							<div class="product">
-								<div class="course-sub-box">
-									<div class="product-img">
-										<a href="search.html">
-											<img class="img-fluid" alt="" src="assets/img/course/img-08.jpg" width="600" height="300">
-										</a>
-										<div class="book-mark">
-											<i class="far fa-bookmark"></i>
-										</div>
-									</div>
-									<div class="product-content">
-										<div class="blog-view-list d-flex">
-											<div class="blog-admin-view">
-												<p><i class="fas fa-book"></i> <span>34 Lessons</span></p>
-											</div>
-											<p>4.9 (92)</p>
-										</div>
-										<h3 class="title">
-											<a href="search.html">Your Guide to Photography And Free</a>
-										</h3>
-										<div class="course-info d-flex align-items-center">
-											<div class="rating-img d-flex align-items-center">
-												<img src="assets/img/user/user11.jpg" alt="">
-												<h4>Deborah Beard</h4>
-											</div>
-											<div class="course-view d-flex align-items-center">
-												<div class="graduate-point">
-													<span>95</span>
-												</div>	
-												<i class="fas fa-user-graduate"></i>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="author-join d-flex align-items-center">
-									<div class="course-price">
-										free
-									</div>
-									<a href="login.html" class="btn join-now">Join Now</a>
-								</div>
-							</div>
-						</div>
-						<div class="course-box">
-							<div class="product">
-								<div class="course-sub-box">
-									<div class="product-img">
-										<a href="search.html">
-											<img class="img-fluid" alt="" src="assets/img/course/img-16.jpg" width="600" height="300">
-										</a>
-										<div class="book-mark">
-											<i class="far fa-bookmark"></i>
-										</div>
-									</div>
-									<div class="product-content">
-										<div class="blog-view-list d-flex">
-											<div class="blog-admin-view">
-												<p><i class="fas fa-book"></i> <span>10 Lessons</span></p>
-											</div>
-											<p>4.9 (82)</p>
-										</div>
-										<h3 class="title">
-											<a href="search.html">Introduction Learn – LMS plugin</a>
-										</h3>
-										<div class="course-info d-flex align-items-center">
-											<div class="rating-img d-flex align-items-center">
-												<img src="assets/img/user/user12.jpg" alt="">
-												<h4>Kathy Mattocks</h4>
-											</div>
-											<div class="course-view d-flex align-items-center">
-												<div class="graduate-point">
-													<span>85</span>
-												</div>	
-												<i class="fas fa-user-graduate"></i>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="author-join d-flex align-items-center">
-									<div class="course-price">
-										$100
-									</div>
-									<a href="login.html" class="btn join-now">Join Now</a>
-								</div>
-							</div>
-						</div>
-						<div class="course-box">
-							<div class="product">
-								<div class="course-sub-box">
-									<div class="product-img">
-										<a href="search.html">
-											<img class="img-fluid" alt="" src="assets/img/course/img-17.jpg" width="600" height="300">
-										</a>
-										<div class="book-mark">
-											<i class="far fa-bookmark"></i>
-										</div>
-									</div>
-									<div class="product-content">
-										<div class="blog-view-list d-flex">
-											<div class="blog-admin-view">
-												<p><i class="fas fa-book"></i> <span>20 Lessons</span></p>
-											</div>
-											<p>4.9 (52)</p>
-										</div>
-										<h3 class="title">
-											<a href="search.html">Learn Python – Interactive Free Tu...</a>
-										</h3>
-										<div class="course-info d-flex align-items-center">
-											<div class="rating-img d-flex align-items-center">
-												<img src="assets/img/user/user13.jpg" alt="">
-												<h4>Michael Archuleta</h4>
-											</div>
-											<div class="course-view d-flex align-items-center">
-												<div class="graduate-point">
-													<span>55</span>
-												</div>	
-												<i class="fas fa-user-graduate"></i>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="author-join d-flex align-items-center">
-									<div class="course-price">
-										$300
-									</div>
-									<a href="login.html" class="btn join-now">Join Now</a>
-								</div>
-							</div>
-						</div>
-						<div class="course-box">
-							<div class="product">
-								<div class="course-sub-box">
-									<div class="product-img">
-										<a href="search.html">
-											<img class="img-fluid" alt="" src="assets/img/course/img-18.jpg" width="600" height="300">
-										</a>
-										<div class="book-mark">
-											<i class="far fa-bookmark"></i>
-										</div>
-									</div>
-									<div class="product-content">
-										<div class="blog-view-list d-flex">
-											<div class="blog-admin-view">
-												<p><i class="fas fa-book"></i> <span>10 Lessons</span></p>
-											</div>
-											<p>4.4 (12)</p>
-										</div>
-										<h3 class="title">
-											<a href="search.html">From Zero to Hero with Nodejs</a>
-										</h3>
-										<div class="course-info d-flex align-items-center">
-											<div class="rating-img d-flex align-items-center">
-												<img src="assets/img/user/user14.jpg" alt="">
-												<h4>Mary Jainn</h4>
-											</div>
-											<div class="course-view d-flex align-items-center">
-												<div class="graduate-point">
-													<span>65</span>
-												</div>	
-												<i class="fas fa-user-graduate"></i>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="author-join d-flex align-items-center">
-									<div class="course-price">
-										$200
-									</div>
-									<a href="login.html" class="btn join-now">Join Now</a>
-								</div>
-							</div>
-						</div>
+						{% endfor %}
 					</div>
 				</div>
 			</section>
@@ -1169,7 +552,7 @@
 					</div>
 				</div>
 			</section>
-			<!-- /Node feedback -->+
+			<!-- /Node feedback -->
 			
 			<!-- New Course subscribe -->
 			<section class="new-course subscribe-course">
@@ -1179,8 +562,8 @@
 							<div class="col-lg-9 col-md-6 d-flex align-items-center">
 								<div class="every-new-course aos " data-aos="fade-up">
 									<div class="new-course-text">
-										<h1>Subscribe For Get Update Every<br> New Courses</h1>
-										<p class="page-sub-text ">20k+ students daily learn with Mentoring. Subscribe for new courses.</p>
+										<h1>Subscribe to Stay Updated on <br>New Opportunities</h1>
+										<p class="page-sub-text ">Subscribe to receive timely updates on new projects and freelance opportunities. Be the first to know about exciting metas and projects that match your skills and interests.</p>
 									</div>
 									<div class="course-mail">
 										<div class="join-arrow">
@@ -1189,7 +572,7 @@
 										<form action="#">
 											<div class="input-group mb-3 subscribe-form">
 												<input type="text" class="form-control course-text-bg" placeholder="Enter your mail">
-												<a href="search.html" class="btn bg-course-subscribe" >
+												<a class="btn bg-course-subscribe" id="subscribe-btn">
 													Subscribe
 												</a>	 
 											</div>	
@@ -1199,7 +582,7 @@
 							</div>
 							<div class="col-lg-3 col-md-6">
 								<div class="new-course-img aos " data-aos="fade-up">
-									<img src="assets/img/join-5.png" alt="new course">
+									<img src="{% static 'assets/img/join-5.png' %}" alt="new course">
 								</div>
 							</div>
 						</div>

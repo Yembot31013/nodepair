@@ -1,5 +1,8 @@
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+
+load_dotenv()  # take environment variables from .env.
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -14,22 +17,14 @@ DEBUG = True
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-o#b0csd58mno$+sf*twk#5^&9frgk_f$^!dz5mtc52)3r+tbmv'
 
-if 'state' in os.environ and os.environ['state'] == 'PRODUCTION':
-    # SECURITY WARNING: don't run with debug turned on in production!
-    DEBUG = True
-
-if 'state' in os.environ and os.environ['state'] == 'PRODUCTION':
-    # SECURITY WARNING: keep the secret key used in production secret!
-    SECRET_KEY = os.getenv('SECRET_KEY')
-
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://nodepair-static.s3.amazonaws.com']
 #CSRF_TRUSTED_ORIGINS = ['https://e70f-105-112-28-104.eu.ngrok.io']
 
-if 'state' in os.environ and os.environ['state'] == 'PRODUCTION':
-    # Configure the domain name using the environment variable
-    # that Azure automatically creates for us.
-    ALLOWED_HOSTS = [os.environ['WEBSITE_HOSTNAME']] if 'WEBSITE_HOSTNAME' in os.environ else []
-    CSRF_TRUSTED_ORIGINS = ['https://' + os.environ['WEBSITE_HOSTNAME']] if 'WEBSITE_HOSTNAME' in os.environ else []
+# 'https://nodepair-static.s3.amazonaws.com'
+if 'WEBSITE_HOSTNAME' in os.environ:
+    ALLOWED_HOSTS.append(os.environ['WEBSITE_HOSTNAME'])
+
+CSRF_TRUSTED_ORIGINS = ['https://' + os.environ['WEBSITE_HOSTNAME']] if 'WEBSITE_HOSTNAME' in os.environ else []
 
 if 'CODESPACE_NAME' in os.environ:
     CSRF_TRUSTED_ORIGINS = [f'https://{os.getenv("CODESPACE_NAME")}-8000.{os.getenv("GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN")}']
@@ -37,7 +32,7 @@ if 'CODESPACE_NAME' in os.environ:
 # Application definition
 
 INSTALLED_APPS = [
-    # 'defender',
+    'defender',
     'channels',
     'daphne',
     'chat',
@@ -58,6 +53,7 @@ INSTALLED_APPS = [
     'seller',
     'projectApp',
     'notifications',
+    'storages',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -77,7 +73,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware', 
-    # 'defender.middleware.FailedLoginMiddleware',
+    'defender.middleware.FailedLoginMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'user_visit.middleware.UserVisitMiddleware', 
@@ -88,23 +84,24 @@ WARNS_THRESHOLD = 10
 
 ROOT_URLCONF = 'software.urls'
 
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels.layers.InMemoryChannelLayer',
-        #'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        #'CONFIG':{
-        #    'hosts': [('127.0.0.1', '6379')]
-        #}
-    }
-}
 # CHANNEL_LAYERS = {
-#     "default": {
-#         "BACKEND": "channels_redis.core.RedisChannelLayer",
-#         "CONFIG": {
-#             "hosts": [("127.0.0.1", 6379)],
-#         },
-#     },
+#     'default': {
+#         'BACKEND': 'channels.layers.InMemoryChannelLayer',
+#         #'BACKEND': 'channels_redis.core.RedisChannelLayer',
+#         #'CONFIG':{
+#         #    'hosts': [('127.0.0.1', '6379')]
+#         #}
+#     }
 # }
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": ['redis://nodepair_user:Adekojo31013!@redis-13278.c14.us-east-1-3.ec2.cloud.redislabs.com:13278'],
+        },
+    },
+}
 
 TEMPLATES = [
     {
@@ -136,20 +133,20 @@ DATABASES = {
     }
 }
 
-if 'state' in os.environ and os.environ['state'] == 'PRODUCTION':
-    # Configure Postgres database based on connection string of the libpq Keyword/Value form
-    # https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-CONNSTRING
-    conn_str = os.environ['AZURE_POSTGRESQL_CONNECTIONSTRING']
-    conn_str_params = {pair.split('=')[0]: pair.split('=')[1] for pair in conn_str.split(' ')}
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': conn_str_params['dbname'], # type: ignore
-            'HOST': conn_str_params['host'],
-            'USER': conn_str_params['user'],
-            'PASSWORD': conn_str_params['password'],
-        }
-    }
+# if 'state' in os.environ and os.environ['state'] == 'PRODUCTION':
+#     # Configure Postgres database based on connection string of the libpq Keyword/Value form
+#     # https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-CONNSTRING
+#     conn_str = os.environ['AZURE_POSTGRESQL_CONNECTIONSTRING']
+#     conn_str_params = {pair.split('=')[0]: pair.split('=')[1] for pair in conn_str.split(' ')}
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.postgresql',
+#             'NAME': conn_str_params['dbname'], # type: ignore
+#             'HOST': conn_str_params['host'],
+#             'USER': conn_str_params['user'],
+#             'PASSWORD': conn_str_params['password'],
+#         }
+#     }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -237,19 +234,48 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
-STATIC_URL = 'static/'
-STATIC_ROOT = "staticfiles"
+# STATIC_URL = 'static/'
+# STATIC_ROOT = "staticfiles"
 
 
-MEDIA_ROOT = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# MEDIA_ROOT = '/media/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, 'static'),
+# )
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+USE_S3 = os.getenv('USE_S3') == 'TRUE'
+
+if USE_S3:
+    # aws settings
+    AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+    AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
+    AWS_DEFAULT_ACL = None
+    AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+    AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
+    # s3 static settings
+    STATIC_LOCATION = 'static'
+    STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
+    STATICFILES_STORAGE = 'software.storage_backends.StaticStorage'
+    # s3 public media settings
+    PUBLIC_MEDIA_LOCATION = 'media'
+    MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{PUBLIC_MEDIA_LOCATION}/'
+    DEFAULT_FILE_STORAGE = 'software.storage_backends.PublicMediaStorage'
+    # s3 private media settings
+    PRIVATE_MEDIA_LOCATION = 'private'
+    PRIVATE_FILE_STORAGE = 'software.storage_backends.PrivateMediaStorage'
+else:
+    STATIC_URL = '/staticfiles/'
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    MEDIA_URL = '/mediafiles/'
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
+
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

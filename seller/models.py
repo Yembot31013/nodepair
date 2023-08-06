@@ -15,6 +15,7 @@ class Personal_Info(models.Model):
     is_seller = models.BooleanField(default=False, null=True, blank=True)
     seller_mode = models.BooleanField(default=False, null=True, blank=True)
     slug = models.SlugField(max_length=40, blank=True, null=True, unique=True)
+    impression = models.IntegerField(blank=True, null=True, default=0)
 
     
 

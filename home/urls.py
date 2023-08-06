@@ -33,6 +33,8 @@ urlpatterns = [
     path('meta/metas', views.metas, name="metas"),
     # about the meta Url
     path('meta/<int:query>', views.about_meta, name="about_meta"),
+    # about the meta Url
+    path('meta/<int:query>', views.about_meta, name="about_meta"),
     # switch between meta and project creation Url
     path('meta', views.choice, name ="meta"),
     # login Url

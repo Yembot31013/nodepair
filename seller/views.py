@@ -14,14 +14,14 @@ def is_node(user):
     return user.seller_profile.seller_mode
   return True
 
-@login_required(login_url="loginpage")
+# @login_required(login_url="loginpage")
 def seller_info(request, name):
   pl = get_object_or_404(Personal_Info, slug = name)
   user_info = pl.profile
-  meta = user_info.overview_set.all()
-  project = user_info.project_overview_set.all()
+  meta = user_info.overview_set.all() # type: ignore
+  project = user_info.project_overview_set.all() # type: ignore
   chatMsg = ChatMessage.objects.filter(to_id = request.user.id, unread = True).order_by("-timestamp")
-  pending_count = Meta_Order.objects.filter(seller_id = pl.id, status = "Pending").count()
+  pending_count = Meta_Order.objects.filter(seller_id = pl.id, status = "Pending").count() # type: ignore
   context = {
     "profile": pl,
     "meta": meta,
@@ -138,7 +138,7 @@ def chatbot(request):
   if not pl.seller_mode:
     return redirect("/")
   chatMsg = ChatMessage.objects.filter(to_id = request.user.id, unread = True).order_by("-timestamp")
-  pending_count = Meta_Order.objects.filter(seller_id = pl.id, status = "Pending").count()
+  pending_count = Meta_Order.objects.filter(seller_id = pl.id, status = "Pending").count() # type: ignore
   context = {
     "profile": pl,
     "pending_count": pending_count,

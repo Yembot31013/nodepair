@@ -24,7 +24,7 @@ class Thread(models.Model):
   objects = ThreadManager()
 
   def total_seller_unread(self, **kwargs):
-    qs = self.chatMessage_thread.filter(user=self.seller, unread = True).count()
+    qs = self.chatMessage_thread.filter(user=self.seller, unread = True).count() # type: ignore
     return qs
     
 

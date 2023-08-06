@@ -1,4 +1,8 @@
 env/
 .cph/
-db.sqlite3
 .vscode
+.env
+scan_project.py
+media
+static
+staticfiles
