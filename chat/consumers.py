@@ -103,7 +103,7 @@ class ChatConsumer(AsyncConsumer):
         {
           "type": "chat_message",
           "text": json.dumps(response),
-          "nuser": nuser,
+          # "nuser": nuser,
       })
 
    async def websocket_receive(self, event):
@@ -188,7 +188,7 @@ class ChatConsumer(AsyncConsumer):
         {
           "type": "chat_message",
           "text": json.dumps(response),
-          "nuser": nuser,
+          # "nuser": nuser,
       })
    
    async def chat_message(self, event):

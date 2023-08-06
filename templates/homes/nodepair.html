@@ -606,7 +606,7 @@
 										<img src="assets/img/logo-5.png" alt="logo">
 									</div>
 									<div class="footer-about-content">
-										<p class="footer-sub-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+										<p class="footer-sub-text">Nodepair is a decentralized freelance platform that helps to create trust between freelancers and clients without any third parties involved using Blockchain Technology.</p>
 										<div class="social-icon">
 											<ul>
 												<li>
@@ -633,13 +633,10 @@
 							
 								<!-- Footer Widget -->
 								<div class="footer-widget footer-menu">
-									<h2 class="footer-title">For Mentee</h2>
+									<h2 class="footer-title">For Clients</h2>
 									<ul>
-										<li><a href="search.html">Search Mentors</a></li>
-										<li><a href="login.html">Login</a></li>
-										<li><a href="register.html">Register</a></li>
-										<li><a href="booking.html">Booking</a></li>
-										<li><a href="dashboard-mentee.html">Mentee Dashboard</a></li>
+										<li><a href="{% url 'loginpage' %}">Login</a></li>
+										<li><a href="{% url 'register' %}">Register</a></li>
 									</ul>
 								</div>
 								<!-- /Footer Widget -->
@@ -650,13 +647,11 @@
 							
 								<!-- Footer Widget -->
 								<div class="footer-widget footer-menu">
-									<h2 class="footer-title">For Mentors</h2>
+									<h2 class="footer-title">For Nodes</h2>
 									<ul>
-										<li><a href="appointments.html">Appointments</a></li>
-										<li><a href="chat.html">Chat</a></li>
-										<li><a href="login.html">Login</a></li>
-										<li><a href="register.html">Register</a></li>
-										<li><a href="dashboard.html">Mentor Dashboard</a></li>
+										<li><a href="{% url 'dashboard' %}">dashboard</a></li>
+										<li><a href="{% url 'meta' %}">Create Meta/Project</a></li>
+										<li><a href="{% url 'chat_view' %}">Chat</a></li>
 									</ul>
 								</div>
 								<!-- /Footer Widget -->
@@ -671,15 +666,15 @@
 									<div class="footer-contact-info">
 										<div class="footer-address">
 											<span><i class="fas fa-map-marker-alt"></i></span>
-											<p> 3556  Beech Street, San Francisco,<br> California, CA 94108 </p>
+											<p> Alimosho Lagos,<br> Nigeria </p>
 										</div>
 										<p>
 											<i class="fas fa-phone-alt"></i>
-											+1 315 369 5943
+											+234 XXX XXXX
 										</p>
 										<p class="mb-0">
 											<i class="fas fa-envelope"></i>
-											mentoring@example.com
+											contactTeam@nodepair.com
 										</p>
 									</div>
 								</div>
@@ -702,7 +697,7 @@
 							<div class="row align-items-center">
 								<div class="col-md-6 ">
 									<div class="copyright-text">
-										<p class="mb-0">&copy; 2022 Mentoring. All rights reserved.</p>
+										<p class="mb-0">&copy; {% now "Y" as current_year %}{{current_year}} NodePair. All rights reserved.</p>
 									</div>
 								</div>
 								<div class="col-md-6 ">
