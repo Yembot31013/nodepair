@@ -86,7 +86,6 @@ sympy==1.11.1
 termcolor==2.2.0
 tokenizers==0.13.2
 tqdm==4.65.0
-Twisted==22.8.0
 txaio==22.2.1
 types-cryptography==3.3.23
 typing_extensions==4.4.0
@@ -98,3 +97,4 @@ Werkzeug==2.2.3
 whitenoise==6.4.0
 wrapt==1.14.1
 zope.interface==5.5.0
+'Twisted[tls,http2]'
