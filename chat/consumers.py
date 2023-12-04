@@ -1,6 +1,3 @@
-import django
-django.setup()
-
 import json
 from channels.consumer import AsyncConsumer
 from django.contrib.auth import get_user_model
