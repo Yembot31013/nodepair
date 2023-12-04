@@ -97,4 +97,4 @@ Werkzeug==2.2.3
 whitenoise==6.4.0
 wrapt==1.14.1
 zope.interface==5.5.0
-'Twisted[tls,http2]'
+Twisted[tls,http2]
