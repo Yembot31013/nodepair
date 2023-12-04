@@ -1,15 +1,8 @@
-import django
-
-django.setup()
-
 from django.db import models
 from django.db.models import Q
 
 # Create your models here.
-from django.contrib.auth import get_user_model
-
-
-User = get_user_model()
+from django.contrib.auth.model import User
 
 class ThreadManager(models.Manager):
   def by_user(self, **kwargs):
